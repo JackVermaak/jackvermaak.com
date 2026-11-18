@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Software-defined radio receiver | Jack Vermaak</title>
+<meta name="description" content="A 4-PAM software radio receiver in MATLAB.">
+<meta property="og:title" content="Software-defined radio receiver | Jack Vermaak">
+<meta property="og:description" content="A 4-PAM software radio receiver in MATLAB.">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<script>try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<header class="site-header"><div class="wrap"><a class="wordmark" href="../index.html">Jack Vermaak</a><div class="header-right"><nav class="site-nav" aria-label="Main"><a href="../index.html">Home</a><a href="../projects.html" aria-current="page">Projects</a><a href="../about.html">About</a><a href="../contact.html">Contact</a><a href="../Jack_Vermaak_CV.pdf" target="_blank" rel="noopener">CV &#8599;</a></nav><button class="icon-btn theme-toggle" type="button" aria-label="Switch theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button><button class="icon-btn menu-toggle" type="button" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></header>
+<main>
+<section class="wrap page-intro"><p class="crumbs"><a href="../projects.html">Projects</a> / University / 2025/26</p>
+<h1>Software-defined radio receiver</h1><p class="lede">A MATLAB receiver that decodes corrupted radio recordings back into text.</p></section>
+<section class="wrap article">
+<div class="prose"><figure><svg class="fig" viewBox="0 0 320 190" role="img" aria-label="4-PAM symbols on four amplitude levels"><line x1="44" y1="40" x2="312" y2="40" class="soft" stroke-width="0.8" stroke-dasharray="3 4"/><text x="10" y="43" class="ink">+3</text><line x1="44" y1="80" x2="312" y2="80" class="soft" stroke-width="0.8" stroke-dasharray="3 4"/><text x="10" y="83" class="ink">+1</text><line x1="44" y1="120" x2="312" y2="120" class="soft" stroke-width="0.8" stroke-dasharray="3 4"/><text x="10" y="123" class="ink">-1</text><line x1="44" y1="160" x2="312" y2="160" class="soft" stroke-width="0.8" stroke-dasharray="3 4"/><text x="10" y="163" class="ink">-3</text><polyline points="52,80 80,40 108,120 136,160 164,80 192,120 220,40 248,160 276,120 304,80" class="stroke" stroke-width="1.3" stroke-linejoin="round"/><circle cx="52" cy="80" r="3.2" class="acc-fill"/><circle cx="80" cy="40" r="3.2" class="acc-fill"/><circle cx="108" cy="120" r="3.2" class="acc-fill"/><circle cx="136" cy="160" r="3.2" class="acc-fill"/><circle cx="164" cy="80" r="3.2" class="acc-fill"/><circle cx="192" cy="120" r="3.2" class="acc-fill"/><circle cx="220" cy="40" r="3.2" class="acc-fill"/><circle cx="248" cy="160" r="3.2" class="acc-fill"/><circle cx="276" cy="120" r="3.2" class="acc-fill"/><circle cx="304" cy="80" r="3.2" class="acc-fill"/><text x="44" y="184">one symbol per dot, 2 bits per symbol</text></svg><figcaption>The signal uses four amplitude levels, so each symbol carries two bits.</figcaption></figure>
+<p>A project for my Communication Systems course. We were given three recorded radio signals, each damaged in different ways, and had to write a receiver in MATLAB that turned them back into readable text. Mine decoded all three.</p>
+<h2>How it works</h2>
+<p>The receiver works in stages. It filters out interference, locks onto the carrier, finds the right moment to sample each symbol, corrects for distortion with an adaptive equaliser, and finds where each block of data starts. Some stages started from the course textbook's example code, which I adapted and combined with my own.</p>
+<h2>A tricky bug</h2>
+<p>The decoded text kept switching between correct and garbage every other block. The stage that locks onto the carrier can lock on upside down, which flips every symbol. I fixed it by checking each block against its known header and flipping it back when needed.</p></div>
+<aside class="spec" aria-label="Project details"><div class="spec-head"><span class="label">Spec sheet</span></div><dl><div><dt>Year</dt><dd>2025/26</dd></div><div><dt>Type</dt><dd>University project</dd></div><div><dt>Modulation</dt><dd>4-PAM, 2 bits per symbol</dd></div><div><dt>Built with</dt><dd>MATLAB</dd></div><div><dt>Result</dt><dd>3 of 3 recordings decoded</dd></div><div><dt>Grade</dt><dd>2.3, second of 18</dd></div></dl></aside>
+</section>
+<nav class="wrap pager" aria-label="More projects"><a class="prev" href="../projects/hydrogen-excavator.html"><span class="label">&larr; Previous</span><strong>Hydrogen-powered excavator</strong></a><a class="next" href="../projects/fire-simulation.html"><span class="label">Next &rarr;</span><strong>Forest fire spread simulation</strong></a></nav>
+</main>
+<footer class="site-footer"><div class="wrap"><span>&copy; <span id="year">2026</span> Jack Vermaak &middot; NRW, Germany</span><nav aria-label="Elsewhere"><a class="ig" href="https://www.instagram.com/jack_vermaak/" target="_blank" rel="noopener" aria-label="Instagram, @jack_vermaak"><span class="ico ig-ico" aria-hidden="true"></span><span>@jack_vermaak</span></a><a href="https://www.linkedin.com/in/jack-vermaak/" target="_blank" rel="noopener">LinkedIn &#8599;</a><a href="https://github.com/JackVermaak" target="_blank" rel="noopener">GitHub &#8599;</a><a href="../Jack_Vermaak_CV.pdf" target="_blank" rel="noopener">CV &#8599;</a></nav></div></footer>
+<script src="../site.js"></script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Forest fire spread simulation | Jack Vermaak</title>
+<meta name="description" content="A wildfire spread model in Python.">
+<meta property="og:title" content="Forest fire spread simulation | Jack Vermaak">
+<meta property="og:description" content="A wildfire spread model in Python.">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<script>try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<header class="site-header"><div class="wrap"><a class="wordmark" href="../index.html">Jack Vermaak</a><div class="header-right"><nav class="site-nav" aria-label="Main"><a href="../index.html">Home</a><a href="../projects.html" aria-current="page">Projects</a><a href="../about.html">About</a><a href="../contact.html">Contact</a><a href="../Jack_Vermaak_CV.pdf" target="_blank" rel="noopener">CV &#8599;</a></nav><button class="icon-btn theme-toggle" type="button" aria-label="Switch theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button><button class="icon-btn menu-toggle" type="button" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></header>
+<main>
+<section class="wrap page-intro"><p class="crumbs"><a href="../projects.html">Projects</a> / University / 2025</p>
+<h1>Forest fire spread simulation</h1><p class="lede">A Python model of how a wildfire spreads, with wind and firebreaks.</p></section>
+<section class="wrap article">
+<div class="prose"><figure><canvas class="fire-canvas" width="250" height="250" aria-label="A 50 by 50 forest grid with a fire front spreading down towards a firebreak"></canvas><div class="legend"><span style="--c: var(--tree)">tree</span><span style="--c: var(--fire)">burning</span><span style="--c: var(--ground)">empty or burnt</span></div><figcaption>A run of the same rules, drawn in your browser. The fire started near the top with the wind blowing down, and the bare strip is a firebreak.</figcaption></figure>
+<p>A project for a modelling and simulation course. The forest is a 50 by 50 grid of trees and empty ground. Each step, a tree next to a fire has a chance of catching, burning trees burn out, and wind makes the fire more likely to spread in one direction.</p>
+<p>You can start a fire by clicking a tree, switch wind and a firebreak on and off, and run a forecast that simulates 50 possible futures to show where the fire is most likely to reach.</p>
+<h2>What I'd improve</h2>
+<p>Turn the forecast into a proper probability map, add a fixed random seed so runs can be repeated, and speed it up for larger forests.</p><p><a href="https://github.com/JackVermaak/ForestFireSpreadSim" target="_blank" rel="noopener">Code on GitHub &#8599;</a></p></div>
+<aside class="spec" aria-label="Project details"><div class="spec-head"><span class="label">Spec sheet</span></div><dl><div><dt>Year</dt><dd>2025</dd></div><div><dt>Type</dt><dd>Individual university project</dd></div><div><dt>Model</dt><dd>Stochastic cellular automaton</dd></div><div><dt>Grid</dt><dd>50 &times; 50 cells</dd></div><div><dt>Forecast</dt><dd>50 Monte Carlo runs</dd></div><div><dt>Built with</dt><dd>Python, NumPy, Matplotlib</dd></div><div><dt>Grade</dt><dd>2.0</dd></div></dl></aside>
+</section>
+<nav class="wrap pager" aria-label="More projects"><a class="prev" href="../projects/sdr-receiver.html"><span class="label">&larr; Previous</span><strong>Software-defined radio receiver</strong></a><a class="next" href="../projects/vr-card-game.html"><span class="label">Next &rarr;</span><strong>Virtual reality card game</strong></a></nav>
+</main>
+<footer class="site-footer"><div class="wrap"><span>&copy; <span id="year">2026</span> Jack Vermaak &middot; NRW, Germany</span><nav aria-label="Elsewhere"><a class="ig" href="https://www.instagram.com/jack_vermaak/" target="_blank" rel="noopener" aria-label="Instagram, @jack_vermaak"><span class="ico ig-ico" aria-hidden="true"></span><span>@jack_vermaak</span></a><a href="https://www.linkedin.com/in/jack-vermaak/" target="_blank" rel="noopener">LinkedIn &#8599;</a><a href="https://github.com/JackVermaak" target="_blank" rel="noopener">GitHub &#8599;</a><a href="../Jack_Vermaak_CV.pdf" target="_blank" rel="noopener">CV &#8599;</a></nav></div></footer>
+<script src="../site.js"></script>
+</body>
+</html>
