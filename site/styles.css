@@ -296,3 +296,13 @@ tr:last-child td { border-bottom: 0; }
 @media (max-width: 640px) { .photos { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; } .photos .ph { font-size: 10px; } }
 
 .about-single { padding-block: 8px 56px; }
+
+/* Home hero without the facts panel */
+.hero.hero-solo { grid-template-columns: minmax(0, 1fr); }
+.hero.hero-solo .intro { max-width: 40em; }
+
+/* About page: one centred reading column */
+.wrap.narrow { max-width: calc(760px + 2 * max(24px, env(safe-area-inset-left, 0px))); }
+.narrow .skills { grid-template-columns: minmax(0, 1fr); }
+.narrow .timeline > li { grid-template-columns: 170px minmax(0, 1fr); }
+@media (max-width: 640px) { .narrow .timeline > li { grid-template-columns: minmax(0, 1fr); } }
