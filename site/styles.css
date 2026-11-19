@@ -1,4 +1,12 @@
-/* Layout: a component datasheet. Serif names, mono spec labels, index rows instead of cards. */
+/* Layout: a component datasheet. Serif names, mono spec labels. */
+/* Fonts are served from this site (no third-party requests). Licences in /fonts. */
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 400; font-display: swap; src: url(/fonts/plex-sans-400.woff2) format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 500; font-display: swap; src: url(/fonts/plex-sans-500.woff2) format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 600; font-display: swap; src: url(/fonts/plex-sans-600.woff2) format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 400; font-display: swap; src: url(/fonts/plex-mono-400.woff2) format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 500; font-display: swap; src: url(/fonts/plex-mono-500.woff2) format("woff2"); }
+@font-face { font-family: "Source Serif 4"; font-style: normal; font-weight: 500 600; font-display: swap; src: url(/fonts/source-serif-4.woff2) format("woff2"); }
+
 :root {
   --paper: #f4f6f5;
   --surface: #ffffff;
@@ -258,13 +266,16 @@ tr:last-child td { border-bottom: 0; }
 .cards.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 @media (max-width: 900px) { .cards.three { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 720px) { .cards { grid-template-columns: minmax(0, 1fr); } }
-.card > a { height: 100%; display: flex; flex-direction: column; gap: 10px; padding: 22px 22px 20px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; text-decoration: none; transition: border-color .15s; }
-.card > a:hover { border-color: var(--accent); }
-.card > a:hover h3 { color: var(--accent); }
+.card > .card-main { height: 100%; display: flex; flex-direction: column; gap: 10px; padding: 22px 22px 20px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; text-decoration: none; transition: border-color .15s; }
+.card > .card-main:hover { border-color: var(--accent); }
+.card > .card-main:hover h3 { color: var(--accent); }
 .card-top { display: flex; justify-content: space-between; gap: 12px; }
 .card h3 { font: 500 22px/1.25 var(--serif); letter-spacing: -.01em; margin-top: 6px; transition: color .15s; }
 .card p { color: var(--muted); font-size: 15px; line-height: 1.6; }
 .card .stack { font: 400 12.5px/1.5 var(--mono); color: var(--ink); margin-top: auto; padding-top: 8px; }
+.card { position: relative; }
+.card .card-code { position: absolute; right: 22px; bottom: 20px; font-size: 14px; font-weight: 500; color: var(--accent); text-decoration: none; }
+.card .card-code:hover { text-decoration: underline; }
 .card .go { font-size: 14px; font-weight: 500; color: var(--accent); padding-top: 12px; border-top: 1px solid var(--line); }
 
 /* On the bench */

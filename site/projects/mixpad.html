@@ -7,15 +7,16 @@
 <meta name="description" content="A USB volume controller built on the Raspberry Pi Pico 2.">
 <meta property="og:title" content="Pico MixPad | Jack Vermaak">
 <meta property="og:description" content="A USB volume controller built on the Raspberry Pi Pico 2.">
-<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <script>try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap">
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="/styles.css?v=c148da75">
+<link rel="preload" href="/fonts/plex-sans-400.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/source-serif-4.woff2" as="font" type="font/woff2" crossorigin>
+<script src="/site.js?v=da0adf41" defer></script>
 </head>
 <body>
-<header class="site-header"><div class="wrap"><a class="wordmark" href="../index.html">Jack Vermaak</a><div class="header-right"><nav class="site-nav" aria-label="Main"><a href="../index.html">Home</a><a href="../projects.html" aria-current="page">Projects</a><a href="../about.html">About</a><a href="../contact.html">Contact</a><a href="../Jack_Vermaak_CV.pdf" target="_blank" rel="noopener">CV &#8599;</a></nav><button class="icon-btn theme-toggle" type="button" aria-label="Switch theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button><button class="icon-btn menu-toggle" type="button" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></header>
+<header class="site-header"><div class="wrap"><a class="wordmark" href="/">Jack Vermaak</a><div class="header-right"><nav class="site-nav" aria-label="Main"><a href="/">Home</a><a href="/projects" aria-current="page">Projects</a><a href="/about">About</a><a href="/contact">Contact</a><a href="/Jack_Vermaak_CV.pdf" target="_blank" rel="noopener">CV &#8599;</a></nav><button class="icon-btn theme-toggle" type="button" aria-label="Switch theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button><button class="icon-btn menu-toggle" type="button" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></header>
 <main>
-<section class="wrap page-intro"><p class="crumbs"><a href="../projects.html">Projects</a> / Personal / 2026</p>
+<section class="wrap page-intro"><p class="crumbs"><a href="/projects">Projects</a> / Personal / 2026</p>
 <h1>Pico MixPad</h1><p class="lede">A USB controller for setting Windows volume per application.</p></section>
 <section class="wrap article">
 <div class="prose"><figure><svg class="fig" viewBox="0 0 220 280" role="img" aria-label="Sketch of the MixPad top plate with an OLED, five knobs and eight keys">
@@ -32,7 +33,7 @@
 <text x="30" y="219" class="ink">mic</text></svg><figcaption>The top plate: display and mic light, four app knobs, the main volume knob and eight keys.</figcaption></figure>
 <p>I wanted a quicker way to balance game, voice chat and music than opening the Windows volume mixer, so I built a controller for it. It has a main volume knob, four knobs for individual apps, eight mechanical keys and a small screen that shows what each knob controls. Pressing any knob mutes it, and one key mutes the microphone.</p>
 <h2>How it works</h2>
-<p>The pad connects over USB and appears as a keyboard, a media controller and a serial port at the same time, so the main volume knob and media keys work on any computer with nothing installed. A Python app on the PC adds per-app control through the Windows audio API and talks to the pad over a simple text protocol I designed.</p>
+<p>The pad connects over USB and appears as a keyboard, a media controller and a serial port at the same time, so the main volume knob and media keys work on any computer with nothing installed. A Python app on the PC adds per-app control through the Windows audio API and communicates with the pad over a simple text protocol I designed.</p>
 <p>The firmware is written in CircuitPython, and the Pico's programmable I/O reads the knobs in hardware so no steps are missed. The knobs send how far they were turned rather than a fixed position, so changing a volume in Windows never fights the hardware. The desktop app has 11 unit tests that run without the pad attached.</p>
 <h3>Serial messages</h3>
 <div class="table-scroll"><table><thead><tr><th>From</th><th>Message</th><th>Meaning</th></tr></thead><tbody>
@@ -43,14 +44,13 @@
 <tr><td>PC</td><td><code>V ch vol muted label</code></td><td>What to show for a knob</td></tr>
 <tr><td>PC</td><td><code>MIC 1|0</code></td><td>Mic state, for the light</td></tr>
 </tbody></table></div>
-<p>The PC repeats the full state every second. If the pad hears nothing for five seconds, it carries on as a plain volume controller.</p>
-<h2>What's next</h2>
-<p>A custom circuit board with hot-swap key sockets instead of hand wiring, and a C++ version of the desktop app to replace the Python one.</p></div>
+<p>The PC repeats the full state every second. If the pad receives nothing for five seconds, it continues as a plain volume controller.</p>
+<h2>Next steps</h2>
+<p>A custom circuit board with hot-swap key sockets instead of hand wiring, and a C++ version of the desktop app to replace the Python one.</p><p><a href="https://github.com/JackVermaak/pico-mixpad" target="_blank" rel="noopener">Code on GitHub &#8599;</a></p></div>
 <aside class="spec" aria-label="Project details"><div class="spec-head"><span class="label">Spec sheet</span></div><dl><div><dt>Year</dt><dd>2026</dd></div><div><dt>Type</dt><dd>Personal project</dd></div><div><dt>MCU</dt><dd>Raspberry Pi Pico 2 (RP2350)</dd></div><div><dt>Inputs</dt><dd>5 rotary encoders, 8 Cherry MX keys</dd></div><div><dt>Display</dt><dd>SSD1306 OLED</dd></div><div><dt>Software</dt><dd>CircuitPython, Python, pytest</dd></div><div><dt>Case</dt><dd>Parametric, OpenSCAD</dd></div></dl></aside>
 </section>
-<nav class="wrap pager" aria-label="More projects"><span></span><a class="next" href="../projects/latency-tester.html"><span class="label">Next &rarr;</span><strong>Pico Latency Tester</strong></a></nav>
+<nav class="wrap pager" aria-label="More projects"><span></span><a class="next" href="/projects/latency-tester"><span class="label">Next &rarr;</span><strong>Pico Latency Tester</strong></a></nav>
 </main>
-<footer class="site-footer"><div class="wrap"><span>&copy; <span id="year">2026</span> Jack Vermaak &middot; NRW, Germany</span><nav aria-label="Elsewhere"><a class="ig" href="https://www.instagram.com/jack_vermaak/" target="_blank" rel="noopener" aria-label="Instagram, @jack_vermaak"><span class="ico ig-ico" aria-hidden="true"></span><span>@jack_vermaak</span></a><a href="https://www.linkedin.com/in/jack-vermaak/" target="_blank" rel="noopener">LinkedIn &#8599;</a><a href="https://github.com/JackVermaak" target="_blank" rel="noopener">GitHub &#8599;</a><a href="../Jack_Vermaak_CV.pdf" target="_blank" rel="noopener">CV &#8599;</a></nav></div></footer>
-<script src="../site.js"></script>
+<footer class="site-footer"><div class="wrap"><span>&copy; <span id="year">2026</span> Jack Vermaak &middot; NRW, Germany</span><nav aria-label="Elsewhere"><a class="ig" href="https://www.instagram.com/jack_vermaak/" target="_blank" rel="noopener" aria-label="Instagram, @jack_vermaak"><span class="ico ig-ico" aria-hidden="true"></span><span>@jack_vermaak</span></a><a href="https://www.linkedin.com/in/jack-vermaak/" target="_blank" rel="noopener">LinkedIn &#8599;</a><a href="https://github.com/JackVermaak" target="_blank" rel="noopener">GitHub &#8599;</a><a href="/Jack_Vermaak_CV.pdf" target="_blank" rel="noopener">CV &#8599;</a></nav></div></footer>
 </body>
 </html>
