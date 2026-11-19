@@ -117,7 +117,7 @@ PROJECTS = [
   'Shows Adam Ondra\'s ascents on his O-grade scale, using scraped ascent data, with an estimator for any grade.',
   'Cloudflare Workers &middot; scraped data'),
  ('/frictionforecast/', '2026', 'Personal', 'Friction Forecast',
-  'A 7-day bouldering conditions forecast for six areas: good, okay, bad or wet, with the best session window each day.',
+  'A 7-day bouldering conditions forecast for 15 areas in seven countries: good, okay, bad or wet, with the best session window each day.',
   'JavaScript &middot; Open-Meteo'),
  ('https://synapse.nrw', 'Ongoing', 'Work', 'synapse.nrw',
   'The website for the Synapse student space at my university. I built it and maintain it.',

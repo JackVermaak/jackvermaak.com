@@ -1,11 +1,12 @@
 // Friction Forecast page. Fetches Open-Meteo straight from the browser (one request for all
 // areas), scores it with score.js and keeps the last answer in localStorage, so the page
 // still works on the walk-in with no signal.
-import { AREAS, inSeason } from './areas.js';
+import { AREAS, COUNTRIES, countryKey, inSeason } from './areas.js';
 import { fetchForecast, PAST_DAYS } from './openmeteo.js';
 import { buildForecast } from './score.js';
 
 const CACHE_KEY = 'ff:v1';
+const COUNTRY_KEY = 'ff:country';
 const FRESH_MS = 60 * 60 * 1000;      // reuse a forecast for an hour before asking again
 const STALE_MS = 12 * 60 * 60 * 1000; // flag anything older than 12 hours
 const LABEL = { good: 'Good', okay: 'Okay', bad: 'Bad', wet: 'Wet' };
@@ -77,10 +78,10 @@ function card(area) {
   const bestLine = best && best.d.score >= 45
     ? `Best this week: <strong>${esc(longDay(best.d.date, best.i))}</strong>, ${best.d.window} (${LABEL[best.d.rating].toLowerCase()}, ${best.d.score})`
     : area.days.every((d) => d.rating === 'wet') ? 'Wet all week. Sandstone is weaker when wet.' : 'No good window this week.';
-  return `<section class="card" id="${area.id}" aria-labelledby="${area.id}-h">
+  return `<section class="card" id="${area.id}" data-country="${countryKey(area.country)}" aria-labelledby="${area.id}-h">
     <div class="card-head">
       <div><h2 id="${area.id}-h">${esc(area.name)}</h2>
-      <p class="meta">${esc(area.place)} · ${esc(area.rock)} · local time ${localTime(area.tz)}</p></div>
+      <p class="meta">${esc(area.place)}, ${esc(area.country)} · ${esc(area.rock)} · local time ${localTime(area.tz)}</p></div>
       <span class="badge${season ? ' on' : ''}" title="Usually climbed ${esc(area.seasonText)}">${season ? 'In season' : 'Off season'}</span>
     </div>
     <p class="best">${bestLine}</p>
@@ -132,6 +133,45 @@ function select(section, area, i) {
   section.querySelector('.detail').innerHTML = detail(area, i);
 }
 
+// Country filter. The choice lives in the URL (?country=switzerland), so a filtered view can be
+// shared, and on the device, so the page opens the way it was left.
+let country = 'all';
+
+function initialCountry() {
+  const known = (k) => k && COUNTRIES.some((c) => c.key === k);
+  const fromUrl = new URLSearchParams(location.search).get('country');
+  if (known(fromUrl)) return fromUrl;
+  try { const saved = localStorage.getItem(COUNTRY_KEY); if (known(saved)) return saved; } catch { /* ignore */ }
+  return 'all';
+}
+
+function applyCountry() {
+  document.querySelectorAll('#filters .chip').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.country === country)));
+  document.querySelectorAll('#areas .card').forEach((c) => { c.hidden = country !== 'all' && c.dataset.country !== country; });
+}
+
+function setCountry(key) {
+  country = key;
+  applyCountry();
+  const url = new URL(location.href);
+  if (key === 'all') url.searchParams.delete('country'); else url.searchParams.set('country', key);
+  history.replaceState(null, '', url);
+  try { localStorage.setItem(COUNTRY_KEY, key); } catch { /* ignore */ }
+}
+
+function renderFilters() {
+  const chip = (key, name, n) =>
+    `<button type="button" class="chip" data-country="${key}" aria-pressed="false">${esc(name)}<span class="n">${n}</span></button>`;
+  const el = $('#filters');
+  el.innerHTML = chip('all', 'All', AREAS.length) + COUNTRIES.map((c) => chip(c.key, c.name, c.count)).join('');
+  el.addEventListener('click', (e) => {
+    const b = e.target.closest('.chip');
+    if (b) setCountry(b.dataset.country);
+  });
+  country = initialCountry();
+  applyCountry();
+}
+
 function render(forecast, info) {
   const age = Date.now() - info.fetchedAt;
   const parts = [`Updated ${ago(age)}`];
@@ -151,6 +191,7 @@ function render(forecast, info) {
     });
     select(section, area, 0);
   });
+  applyCountry();
 }
 
 async function start(force = false) {
@@ -170,4 +211,5 @@ async function start(force = false) {
   }
 }
 
+renderFilters();
 start();
