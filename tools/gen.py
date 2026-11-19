@@ -1,7 +1,7 @@
 import hashlib, os, shutil, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from figs import MIXPAD, LATENCY, SDR, FIRE, FIRE_LEGEND, VR
+from figs import LATENCY, SDR, FIRE, FIRE_LEGEND, VR
 
 EMAIL = 'jackdrcvermaak@gmail.com'
 LINKEDIN = 'https://www.linkedin.com/in/jack-vermaak/'
@@ -309,7 +309,6 @@ def mixpad(root):
 <h2>Build</h2>
 <p>The case is a 3D-printed plate and tray, generated from one parametric OpenSCAD file. The switches and knobs are hand-wired with jumper leads that plug onto the Pico's header pins, so nothing is soldered to the Pico itself and it can be reused on the planned circuit board.</p>
 <figure class="photo-pair">{img('mixpad-plate.jpg', 'The printed top plate with eight purple MX switches, five rotary encoders, the screen and both LEDs fitted, before keycaps and knobs', 655, 800)}{img('mixpad-wiring.jpg', 'The underside of the plate: every switch and encoder wired with coloured jumper leads to the Pico in the tray', 800, 661)}<figcaption>Left: switches, encoders, screen and LEDs in the printed plate. Right: the hand wiring underneath.</figcaption></figure>
-<figure>{MIXPAD}<figcaption>Layout of the top plate: display and mic light, four app knobs, the main volume knob and eight keys.</figcaption></figure>
 <h2>Next steps</h2>
 <p>A custom circuit board with hot-swap key sockets instead of hand wiring, and a C++ version of the desktop app to replace the Python one.</p>'''
     facts = [('Year', '2026'), ('Type', 'Personal project'), ('MCU', 'Raspberry Pi Pico 2 (RP2350)'), ('Inputs', '5 rotary encoders, 8 Cherry MX keys'), ('Display', 'SSD1306 OLED'), ('Software', 'CircuitPython, Python, pytest'), ('Case', 'Parametric, OpenSCAD')]

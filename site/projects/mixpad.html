@@ -46,18 +46,6 @@
 <h2>Build</h2>
 <p>The case is a 3D-printed plate and tray, generated from one parametric OpenSCAD file. The switches and knobs are hand-wired with jumper leads that plug onto the Pico's header pins, so nothing is soldered to the Pico itself and it can be reused on the planned circuit board.</p>
 <figure class="photo-pair"><img src="/photos/mixpad-plate.jpg" alt="The printed top plate with eight purple MX switches, five rotary encoders, the screen and both LEDs fitted, before keycaps and knobs" width="655" height="800" loading="lazy" decoding="async"><img src="/photos/mixpad-wiring.jpg" alt="The underside of the plate: every switch and encoder wired with coloured jumper leads to the Pico in the tray" width="800" height="661" loading="lazy" decoding="async"><figcaption>Left: switches, encoders, screen and LEDs in the printed plate. Right: the hand wiring underneath.</figcaption></figure>
-<figure><svg class="fig" viewBox="0 0 220 280" role="img" aria-label="Sketch of the MixPad top plate with an OLED, five knobs and eight keys">
-<rect x="4" y="4" width="212" height="262" rx="10" class="stroke" stroke-width="1.5"/>
-<rect x="56" y="20" width="108" height="46" rx="3" class="acc-soft" stroke-width="1.2"/>
-<text x="66" y="36" class="acc-text">GAME</text><rect x="66" y="40" width="70" height="4" class="acc-fill"/><text x="66" y="54" class="acc-text">MIC MUTED</text>
-<circle cx="184" cy="43" r="5" class="acc" stroke-width="1.5"/><text x="172" y="62">mic</text>
-<g class="stroke" stroke-width="1.4"><circle cx="40" cy="104" r="15"/><circle cx="86" cy="104" r="15"/><circle cx="134" cy="104" r="15"/><circle cx="180" cy="104" r="15"/>
-<line x1="40" y1="92" x2="40" y2="100"/><line x1="86" y1="92" x2="86" y2="100"/><line x1="134" y1="92" x2="134" y2="100"/><line x1="180" y1="92" x2="180" y2="100"/>
-<circle cx="110" cy="158" r="22"/><line x1="110" y1="140" x2="110" y2="150"/></g>
-<text x="29" y="132">app 1</text><text x="75" y="132">app 2</text><text x="123" y="132">app 3</text><text x="169" y="132">app 4</text><text x="94" y="192" class="ink">master</text>
-<g class="fill-surface" stroke-width="1.2"><rect x="22" y="202" width="34" height="26" rx="3"/><rect x="70" y="202" width="34" height="26" rx="3"/><rect x="118" y="202" width="34" height="26" rx="3"/><rect x="166" y="202" width="34" height="26" rx="3"/>
-<rect x="22" y="234" width="34" height="26" rx="3"/><rect x="70" y="234" width="34" height="26" rx="3"/><rect x="118" y="234" width="34" height="26" rx="3"/><rect x="166" y="234" width="34" height="26" rx="3"/></g>
-<text x="30" y="219" class="ink">mic</text></svg><figcaption>Layout of the top plate: display and mic light, four app knobs, the main volume knob and eight keys.</figcaption></figure>
 <h2>Next steps</h2>
 <p>A custom circuit board with hot-swap key sockets instead of hand wiring, and a C++ version of the desktop app to replace the Python one.</p><p><a href="https://github.com/JackVermaak/pico-mixpad" target="_blank" rel="noopener">Code on GitHub &#8599;</a></p></div>
 <aside class="spec" aria-label="Project details"><div class="spec-head"><span class="label">Spec sheet</span></div><dl><div><dt>Year</dt><dd>2026</dd></div><div><dt>Type</dt><dd>Personal project</dd></div><div><dt>MCU</dt><dd>Raspberry Pi Pico 2 (RP2350)</dd></div><div><dt>Inputs</dt><dd>5 rotary encoders, 8 Cherry MX keys</dd></div><div><dt>Display</dt><dd>SSD1306 OLED</dd></div><div><dt>Software</dt><dd>CircuitPython, Python, pytest</dd></div><div><dt>Case</dt><dd>Parametric, OpenSCAD</dd></div></dl></aside>
