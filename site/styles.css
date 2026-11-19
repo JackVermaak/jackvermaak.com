@@ -301,8 +301,6 @@ tr:last-child td { border-bottom: 0; }
 .hero.hero-solo { grid-template-columns: minmax(0, 1fr); }
 .hero.hero-solo .intro { max-width: 40em; }
 
-/* About page: one centred reading column */
-.wrap.narrow { max-width: calc(760px + 2 * max(24px, env(safe-area-inset-left, 0px))); }
-.narrow .skills { grid-template-columns: minmax(0, 1fr); }
-.narrow .timeline > li { grid-template-columns: 170px minmax(0, 1fr); }
-@media (max-width: 640px) { .narrow .timeline > li { grid-template-columns: minmax(0, 1fr); } }
+/* About page: centred introduction and story */
+.about-centre { text-align: center; }
+.about-centre .lede, .about-centre .prose { margin-inline: auto; }

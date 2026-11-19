@@ -182,9 +182,9 @@ def projects(root):
 </section>'''
 
 def about(root):
-    return f'''<section class="wrap narrow page-intro"><p class="crumbs">About</p><h1>About me</h1>
+    return f'''<section class="wrap page-intro about-centre"><p class="crumbs">About</p><h1>About me</h1>
 <p class="lede">Engineering student, former ERP consultant and long-time boulderer.</p></section>
-<section class="wrap narrow about-single">
+<section class="wrap about-single about-centre">
 <div class="prose">
 <p>I'm Jack Vermaak, an Infotronic Systems Engineering student at Hochschule Rhein-Waal in Germany. The degree combines electronics, computer engineering and software, and I expect to finish in late 2027.</p>
 <p>I'm most interested in where hardware and software meet: what runs on a microcontroller, what runs on a computer, and how the two talk to each other. Recent projects include a USB audio controller, a click-to-screen latency tester, a software radio receiver and the electrical system for a hydrogen-powered excavator.</p>
@@ -192,16 +192,16 @@ def about(root):
 <p>Outside of study and work I've been bouldering for over 12 years, with several outdoor problems up to V11 (8A).</p>
 </div>
 </section>
-<section class="wrap narrow section" id="experience">
+<section class="wrap section" id="experience">
 <div class="section-head"><h2>Experience</h2><a class="more" href="{root}Jack_Vermaak_CV.pdf" {EXT}>Full CV &#8599;</a></div>
 {timeline(True)}
 </section>
-<section class="wrap narrow section">
+<section class="wrap section">
 <div class="section-head"><h2>Education</h2></div>
 <ol class="timeline"><li><span class="when">Sep 2022 &ndash; 2027</span><div><h3>B.Sc. Infotronic Systems Engineering</h3><p class="where">Hochschule Rhein-Waal &middot; Kamp-Lintfort &middot; Taught in English</p>
 <p class="what">Current average 2.3 on the German scale, where 1.0 is the best grade. Strongest modules: Machine Learning (top grade in the class), Communication Systems (2nd of 18) and Computer Networks (5th of 38).</p></div></li></ol>
 </section>
-<section class="wrap narrow section" style="padding-bottom: 72px">
+<section class="wrap section" style="padding-bottom: 72px">
 <div class="section-head"><h2>Tools I use</h2></div>
 <dl class="skills">
 <div><dt>Languages</dt><dd>Python, C++, C#, Java, PHP, HTML/CSS</dd></div>
