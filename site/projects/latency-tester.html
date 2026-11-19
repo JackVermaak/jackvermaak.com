@@ -18,7 +18,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <script>try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
-<link rel="stylesheet" href="/styles.css?v=c148da75">
+<link rel="stylesheet" href="/styles.css?v=6a4c464e">
 <link rel="preload" href="/fonts/plex-sans-400.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/source-serif-4.woff2" as="font" type="font/woff2" crossorigin>
 <script src="/site.js?v=da0adf41" defer></script>
 </head>
@@ -28,13 +28,7 @@
 <section class="wrap page-intro"><p class="crumbs"><a href="/projects">Projects</a> / Personal / 2026</p>
 <h1>Pico Latency Tester</h1><p class="lede">A small device that measures the delay between a mouse click and the screen changing.</p></section>
 <section class="wrap article">
-<div class="prose"><figure><svg class="fig" viewBox="0 0 320 178" role="img" aria-label="Timing diagram: the timer runs from the click until screen brightness crosses the threshold">
-<text x="8" y="44" class="ink">click</text><path d="M52 52 H96 V30 H300" class="stroke" stroke-width="1.6"/>
-<text x="8" y="112" class="ink">screen</text><path d="M52 120 H206 C 214 120, 218 84, 230 80 S 260 76, 300 76" class="stroke" stroke-width="1.6"/>
-<line x1="52" y1="106" x2="300" y2="106" class="soft" stroke-width="1" stroke-dasharray="4 4"/><text x="234" y="100">threshold</text>
-<line x1="96" y1="30" x2="96" y2="150" class="soft" stroke-width="0.8" stroke-dasharray="2 3"/><line x1="213" y1="106" x2="213" y2="150" class="soft" stroke-width="0.8" stroke-dasharray="2 3"/>
-<path d="M96 150 H213" class="acc" stroke-width="2"/><path d="M96 145 V155 M213 145 V155" class="acc" stroke-width="2"/>
-<text x="118" y="168" class="acc-text">measured latency</text></svg><figcaption>One measurement: the timer starts with the click and stops when the screen's brightness crosses a threshold.</figcaption></figure>
+<div class="prose"><figure class="photo-pair"><img src="/photos/latency-running.jpg" alt="The tester mid-run: its screen shows sample 22 of 100 and the last result, 20.3 ms" width="800" height="788" decoding="async"><img src="/photos/latency-sensor.jpg" alt="The light sensor board on its three-wire lead, which goes in a black cup held against the monitor" width="800" height="800" decoding="async"><figcaption>The tester during a run, and the light sensor that sits against the monitor in a black printed cup.</figcaption></figure>
 <p>This device measures the time between a mouse click and the screen actually changing. That delay includes the USB connection, the operating system, the game, the graphics card and the monitor, which makes it a useful way to compare game and display settings. It also confirms that a device such as the MixPad does not add any delay.</p>
 <h2>How it works</h2>
 <ol>
@@ -42,9 +36,25 @@
 <li>Send a click as a 1000 Hz USB mouse and start a microsecond timer.</li>
 <li>Stop the timer when the brightness moves past a threshold set from the measured noise.</li>
 </ol>
+<figure><svg class="fig" viewBox="0 0 320 178" role="img" aria-label="Timing diagram: the timer runs from the click until screen brightness crosses the threshold">
+<text x="8" y="44" class="ink">click</text><path d="M52 52 H96 V30 H300" class="stroke" stroke-width="1.6"/>
+<text x="8" y="112" class="ink">screen</text><path d="M52 120 H206 C 214 120, 218 84, 230 80 S 260 76, 300 76" class="stroke" stroke-width="1.6"/>
+<line x1="52" y1="106" x2="300" y2="106" class="soft" stroke-width="1" stroke-dasharray="4 4"/><text x="234" y="100">threshold</text>
+<line x1="96" y1="30" x2="96" y2="150" class="soft" stroke-width="0.8" stroke-dasharray="2 3"/><line x1="213" y1="106" x2="213" y2="150" class="soft" stroke-width="0.8" stroke-dasharray="2 3"/>
+<path d="M96 150 H213" class="acc" stroke-width="2"/><path d="M96 145 V155 M213 145 V155" class="acc" stroke-width="2"/>
+<text x="118" y="168" class="acc-text">measured latency</text></svg><figcaption>One measurement: the timer starts with the click and stops when the screen's brightness crosses a threshold.</figcaption></figure>
 <p>Each run takes 100 measurements with random pauses in between, so the clicks never line up with the monitor's refresh. The device shows the average and spread on its display, and a Python script can log every measurement to a CSV file.</p>
 <h2>Why C++</h2>
-<p>I first planned to use CircuitPython, but its source code showed that it only reports USB input every 8 milliseconds. That would have added up to 8 ms of error to every measurement, so I wrote the firmware in C++ with TinyUSB, which reports every millisecond.</p><p><a href="https://github.com/JackVermaak/pico-latency-tester" target="_blank" rel="noopener">Code on GitHub &#8599;</a></p></div>
+<p>I first planned to use CircuitPython, but its source code showed that it only reports USB input every 8 milliseconds. That would have added up to 8 ms of error to every measurement, so I wrote the firmware in C++ with TinyUSB, which reports every millisecond.</p>
+<h2>Results</h2>
+<p>I measured the Windows desktop on a 1080p 240 Hz monitor with an RTX 5070 Ti, using a full-screen window that turns white on each click. Three identical runs at 240 Hz gave the same median to within 0.1 ms, so the tester itself is consistent.</p>
+<figure><img src="/photos/latency-refresh.png" alt="Chart of click-to-photon latency at 60, 144 and 240 Hz: medians of 62.2, 28.4 and 18.3 ms" width="1600" height="510" loading="lazy" decoding="async"><figcaption>200 clicks at each refresh rate. Dots are single clicks, the line is the 5th to 95th percentile and the large dot is the median.</figcaption></figure>
+<div class="table-scroll"><table><thead><tr><th>Refresh rate</th><th>Median</th><th>5th&ndash;95th percentile</th></tr></thead><tbody>
+<tr><td>60 Hz</td><td><strong>62.2 ms</strong></td><td>54.6&ndash;70.2 ms</td></tr>
+<tr><td>144 Hz</td><td><strong>28.4 ms</strong></td><td>25.2&ndash;31.7 ms</td></tr>
+<tr><td>240 Hz</td><td><strong>18.3 ms</strong></td><td>16.1&ndash;21.6 ms</td></tr>
+</tbody></table></div>
+<p>Going from 60 Hz to 240 Hz cut the delay by 71 %. The results fit about 3.8 ms plus 3.5 refresh periods, because the Windows desktop draws in whole frames, so the refresh rate matters more than raw speed suggests. The spread at each rate is about one refresh period, which is what clicks landing at random points in the refresh cycle would give.</p><p><a href="https://github.com/JackVermaak/pico-latency-tester" target="_blank" rel="noopener">Code on GitHub &#8599;</a></p></div>
 <aside class="spec" aria-label="Project details"><div class="spec-head"><span class="label">Spec sheet</span></div><dl><div><dt>Year</dt><dd>2026</dd></div><div><dt>Type</dt><dd>Personal project</dd></div><div><dt>MCU</dt><dd>Raspberry Pi Pico 2 W</dd></div><div><dt>Sensor</dt><dd>ALS-PT19 light sensor</dd></div><div><dt>USB rate</dt><dd>1000 Hz</dd></div><div><dt>Samples</dt><dd>100 per run</dd></div><div><dt>Software</dt><dd>C++, TinyUSB, Python</dd></div></dl></aside>
 </section>
 <nav class="wrap pager" aria-label="More projects"><a class="prev" href="/projects/mixpad"><span class="label">&larr; Previous</span><strong>Pico MixPad</strong></a><a class="next" href="/projects/hydrogen-excavator"><span class="label">Next &rarr;</span><strong>Hydrogen-powered excavator</strong></a></nav>

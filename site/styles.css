@@ -201,6 +201,9 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .prose code { font: 400 .88em var(--mono); background: var(--accent-soft); padding: 2px 5px; border-radius: 4px; }
 
 figure { margin: 0; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); padding: 22px; }
+figure > img, figure > video { display: block; width: 100%; height: auto; border-radius: 6px; }
+.photo-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: center; }
+.photo-pair figcaption { grid-column: 1 / -1; margin-top: 2px; }
 figcaption { font-size: 14px; color: var(--muted); margin-top: 14px; line-height: 1.5; }
 .fig { display: block; width: 100%; max-width: 420px; height: auto; margin: 0 auto; font: 10px var(--mono); }
 .fig text { fill: var(--muted); }

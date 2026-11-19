@@ -285,12 +285,17 @@ def proj(root, i, lede, facts, body, links=()):
 </section>
 <nav class="wrap pager" aria-label="More projects">{pg}</nav>'''
 
+def img(src, alt, w, h, lazy=True):
+    """A photo from site/photos with its size set, so the page does not jump while it loads."""
+    ld = ' loading="lazy"' if lazy else ''
+    return f'<img src="/photos/{src}" alt="{alt}" width="{w}" height="{h}"{ld} decoding="async">'
+
 def mixpad(root):
-    body = f'''<figure>{MIXPAD}<figcaption>The top plate: display and mic light, four app knobs, the main volume knob and eight keys.</figcaption></figure>
+    body = f'''<figure class="photo-pair">{img('mixpad-muted.jpg', 'The finished Pico MixPad: the screen lists app volumes with a MIC MUTED banner, the red light is on, with five knobs and eight coloured keys', 664, 800, lazy=False)}<video src="/photos/mixpad-knob.mp4" poster="/photos/mixpad-knob-poster.jpg" width="720" height="720" autoplay muted loop playsinline aria-label="Turning an app knob changes that app's volume bar on the screen"></video><figcaption>The finished pad with the microphone muted, and an app knob changing Discord's volume on the screen.</figcaption></figure>
 <p>I wanted a quicker way to balance game, voice chat and music than opening the Windows volume mixer, so I built a controller for it. It has a main volume knob, four knobs for individual apps, eight mechanical keys and a small screen that shows what each knob controls. Pressing any knob mutes it, and one key mutes the microphone.</p>
 <h2>How it works</h2>
 <p>The pad connects over USB and appears as a keyboard, a media controller and a serial port at the same time, so the main volume knob and media keys work on any computer with nothing installed. A Python app on the PC adds per-app control through the Windows audio API and communicates with the pad over a simple text protocol I designed.</p>
-<p>The firmware is written in CircuitPython, and the Pico's programmable I/O reads the knobs in hardware so no steps are missed. The knobs send how far they were turned rather than a fixed position, so changing a volume in Windows never fights the hardware. The desktop app has 11 unit tests that run without the pad attached.</p>
+<p>The firmware is written in CircuitPython, and the Pico's programmable I/O reads the knobs in hardware so no steps are missed. The knobs send how far they were turned rather than a fixed position, so changing a volume in Windows never fights the hardware. The desktop app has 22 unit tests that run without the pad attached, on every push to GitHub.</p>
 <h3>Serial messages</h3>
 <div class="table-scroll"><table><thead><tr><th>From</th><th>Message</th><th>Meaning</th></tr></thead><tbody>
 <tr><td>PC</td><td><code>?</code></td><td>Is a pad connected?</td></tr>
@@ -301,13 +306,17 @@ def mixpad(root):
 <tr><td>PC</td><td><code>MIC 1|0</code></td><td>Mic state, for the light</td></tr>
 </tbody></table></div>
 <p>The PC repeats the full state every second. If the pad receives nothing for five seconds, it continues as a plain volume controller.</p>
+<h2>Build</h2>
+<p>The case is a 3D-printed plate and tray, generated from one parametric OpenSCAD file. The switches and knobs are hand-wired with jumper leads that plug onto the Pico's header pins, so nothing is soldered to the Pico itself and it can be reused on the planned circuit board.</p>
+<figure class="photo-pair">{img('mixpad-plate.jpg', 'The printed top plate with eight purple MX switches, five rotary encoders, the screen and both LEDs fitted, before keycaps and knobs', 655, 800)}{img('mixpad-wiring.jpg', 'The underside of the plate: every switch and encoder wired with coloured jumper leads to the Pico in the tray', 800, 661)}<figcaption>Left: switches, encoders, screen and LEDs in the printed plate. Right: the hand wiring underneath.</figcaption></figure>
+<figure>{MIXPAD}<figcaption>Layout of the top plate: display and mic light, four app knobs, the main volume knob and eight keys.</figcaption></figure>
 <h2>Next steps</h2>
 <p>A custom circuit board with hot-swap key sockets instead of hand wiring, and a C++ version of the desktop app to replace the Python one.</p>'''
     facts = [('Year', '2026'), ('Type', 'Personal project'), ('MCU', 'Raspberry Pi Pico 2 (RP2350)'), ('Inputs', '5 rotary encoders, 8 Cherry MX keys'), ('Display', 'SSD1306 OLED'), ('Software', 'CircuitPython, Python, pytest'), ('Case', 'Parametric, OpenSCAD')]
     return proj(root, 0, 'A USB controller for setting Windows volume per application.', facts, body, [('Code on GitHub', REPOS['Pico MixPad'])])
 
 def latency(root):
-    body = f'''<figure>{LATENCY}<figcaption>One measurement: the timer starts with the click and stops when the screen's brightness crosses a threshold.</figcaption></figure>
+    body = f'''<figure class="photo-pair">{img('latency-running.jpg', 'The tester mid-run: its screen shows sample 22 of 100 and the last result, 20.3 ms', 800, 788, lazy=False)}{img('latency-sensor.jpg', 'The light sensor board on its three-wire lead, which goes in a black cup held against the monitor', 800, 800, lazy=False)}<figcaption>The tester during a run, and the light sensor that sits against the monitor in a black printed cup.</figcaption></figure>
 <p>This device measures the time between a mouse click and the screen actually changing. That delay includes the USB connection, the operating system, the game, the graphics card and the monitor, which makes it a useful way to compare game and display settings. It also confirms that a device such as the MixPad does not add any delay.</p>
 <h2>How it works</h2>
 <ol>
@@ -315,9 +324,19 @@ def latency(root):
 <li>Send a click as a 1000 Hz USB mouse and start a microsecond timer.</li>
 <li>Stop the timer when the brightness moves past a threshold set from the measured noise.</li>
 </ol>
+<figure>{LATENCY}<figcaption>One measurement: the timer starts with the click and stops when the screen's brightness crosses a threshold.</figcaption></figure>
 <p>Each run takes 100 measurements with random pauses in between, so the clicks never line up with the monitor's refresh. The device shows the average and spread on its display, and a Python script can log every measurement to a CSV file.</p>
 <h2>Why C++</h2>
-<p>I first planned to use CircuitPython, but its source code showed that it only reports USB input every 8 milliseconds. That would have added up to 8 ms of error to every measurement, so I wrote the firmware in C++ with TinyUSB, which reports every millisecond.</p>'''
+<p>I first planned to use CircuitPython, but its source code showed that it only reports USB input every 8 milliseconds. That would have added up to 8 ms of error to every measurement, so I wrote the firmware in C++ with TinyUSB, which reports every millisecond.</p>
+<h2>Results</h2>
+<p>I measured the Windows desktop on a 1080p 240 Hz monitor with an RTX 5070 Ti, using a full-screen window that turns white on each click. Three identical runs at 240 Hz gave the same median to within 0.1 ms, so the tester itself is consistent.</p>
+<figure><img src="/photos/latency-refresh.png" alt="Chart of click-to-photon latency at 60, 144 and 240 Hz: medians of 62.2, 28.4 and 18.3 ms" width="1600" height="510" loading="lazy" decoding="async"><figcaption>200 clicks at each refresh rate. Dots are single clicks, the line is the 5th to 95th percentile and the large dot is the median.</figcaption></figure>
+<div class="table-scroll"><table><thead><tr><th>Refresh rate</th><th>Median</th><th>5th&ndash;95th percentile</th></tr></thead><tbody>
+<tr><td>60 Hz</td><td><strong>62.2 ms</strong></td><td>54.6&ndash;70.2 ms</td></tr>
+<tr><td>144 Hz</td><td><strong>28.4 ms</strong></td><td>25.2&ndash;31.7 ms</td></tr>
+<tr><td>240 Hz</td><td><strong>18.3 ms</strong></td><td>16.1&ndash;21.6 ms</td></tr>
+</tbody></table></div>
+<p>Going from 60 Hz to 240 Hz cut the delay by 71 %. The results fit about 3.8 ms plus 3.5 refresh periods, because the Windows desktop draws in whole frames, so the refresh rate matters more than raw speed suggests. The spread at each rate is about one refresh period, which is what clicks landing at random points in the refresh cycle would give.</p>'''
     facts = [('Year', '2026'), ('Type', 'Personal project'), ('MCU', 'Raspberry Pi Pico 2 W'), ('Sensor', 'ALS-PT19 light sensor'), ('USB rate', '1000 Hz'), ('Samples', '100 per run'), ('Software', 'C++, TinyUSB, Python')]
     return proj(root, 1, 'A small device that measures the delay between a mouse click and the screen changing.', facts, body, [('Code on GitHub', REPOS['Pico Latency Tester'])])
 
