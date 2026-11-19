@@ -24,3 +24,8 @@
 
 /og.png
   Cache-Control: public, max-age=604800
+
+# Friction Forecast's ES modules import each other by plain URL (no content hash), so a browser
+# holding an old areas.js next to a new app.js would break. Revalidate on every load (304 if unchanged).
+/frictionforecast/*
+  Cache-Control: public, max-age=0, must-revalidate
