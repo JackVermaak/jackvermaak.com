@@ -35,13 +35,32 @@ SUN = '<svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" st
 MOON = '<svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>'
 BARS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>'
 
-def head(title, desc, root):
+BASE = 'https://jackvermaak.com'
+# Link-preview card for LinkedIn, WhatsApp and the like. Rendered from tools/og.html, see the README.
+OG_IMAGE = BASE + '/og.png'
+
+def head(title, desc, root, path=None):
+    """<head> contents. `path` is the page's file (e.g. 'projects/mixpad.html'); None for pages
+    that should not be indexed, such as the 404 page."""
+    if path is None:
+        meta = '<meta name="robots" content="noindex">\n'
+    else:
+        canon = BASE + url(path)
+        meta = (f'<link rel="canonical" href="{canon}">\n'
+                f'<meta property="og:url" content="{canon}">\n')
     return f'''<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{title}</title>
 <meta name="description" content="{desc}">
+{meta}<meta property="og:type" content="website">
+<meta property="og:site_name" content="Jack Vermaak">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
+<meta property="og:image" content="{OG_IMAGE}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Jack Vermaak: engineering student, software, hardware and electronics">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 {THEME_BOOT}
 <link rel="stylesheet" href="/styles.css?v={version('styles.css')}">
@@ -63,9 +82,9 @@ def footer(root):
             f'<nav aria-label="Elsewhere"><a class="ig" href="{INSTAGRAM}" {EXT} aria-label="Instagram, @jack_vermaak">{CAMERA}<span>@jack_vermaak</span></a><a href="{LINKEDIN}" {EXT}>LinkedIn &#8599;</a><a href="{GITHUB}" {EXT}>GitHub &#8599;</a><a href="/Jack_Vermaak_CV.pdf" {EXT}>CV &#8599;</a></nav>'
             f'</div></footer>')
 
-def page(path, title, desc, cur, main):
+def page(path, title, desc, cur, main, indexed=True):
     root = '/'  # root-absolute links; see url()
-    return dict(path=path, headhtml=head(title, desc, root),
+    return dict(path=path, indexed=indexed, headhtml=head(title, desc, root, path if indexed else None),
                 body=header(root, cur) + '\n<main>\n' + main(root) + '\n</main>\n' + footer(root))
 
 INSTAGRAM = 'https://www.instagram.com/jack_vermaak/'
@@ -345,6 +364,11 @@ def vr(root):
     facts = [('Year', 'Summer 2024'), ('Type', 'University team project'), ('Team', '4 students'), ('Built with', 'Unity (C#), Oculus XR'), ('Grade', '1.3, highest in the class')]
     return proj(root, 5, 'A card duel you play with your hands in VR.', facts, body)
 
+def notfound(root):
+    return f'''<section class="wrap page-intro"><p class="crumbs">Error 404</p><h1>Page not found</h1>
+<p class="lede">There is nothing at this address. The page may have moved, or the link may have a typo.</p>
+<div class="actions" style="margin-top:28px"><a class="btn primary" href="/">Go to the home page</a><a class="btn" href="/projects">See my projects</a></div></section>'''
+
 D = 'Jack Vermaak is an engineering student in Germany interested in software, hardware and electronics.'
 PAGES = [
  page('index.html', 'Jack Vermaak', D, 'Home', home),
@@ -357,6 +381,7 @@ PAGES = [
  page('projects/sdr-receiver.html', 'Software-defined radio receiver | Jack Vermaak', 'A 4-PAM software radio receiver in MATLAB.', 'Projects', sdr),
  page('projects/fire-simulation.html', 'Forest fire spread simulation | Jack Vermaak', 'A wildfire spread model in Python.', 'Projects', fire),
  page('projects/vr-card-game.html', 'Virtual reality card game | Jack Vermaak', 'A VR card duel game built in Unity.', 'Projects', vr),
+ page('404.html', 'Page not found | Jack Vermaak', 'This page does not exist.', None, notfound, indexed=False),
 ]
 
 FAVICON = '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#1d6a51"/><text x="32" y="43" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="600" fill="#f4f6f5">JV</text></svg>'''
@@ -371,6 +396,12 @@ def write_all(outdir=SITE):
         os.makedirs(os.path.dirname(path), exist_ok=True)
         html = f'<!doctype html>\n<html lang="en">\n<head>\n{p["headhtml"]}\n</head>\n<body>\n{p["body"]}\n</body>\n</html>\n'
         open(path, 'w').write(html)
+    # Search engines: every indexed page, plus the robots.txt that points to the list.
+    # The O-Grader copy in site/ograder is left out: its canonical address is jackingtothemax.com/ograder.
+    urls = ''.join(f'  <url><loc>{BASE + url(p["path"])}</loc></url>\n' for p in PAGES if p['indexed'])
+    open(os.path.join(outdir, 'sitemap.xml'), 'w').write(
+        '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + '</urlset>\n')
+    open(os.path.join(outdir, 'robots.txt'), 'w').write(f'User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n')
 
 if __name__ == '__main__':
     write_all(); print('Pages written to site/')
