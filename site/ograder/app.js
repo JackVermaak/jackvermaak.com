@@ -169,7 +169,7 @@ q.addEventListener('keydown',function(e){
   else if(e.key=='ArrowUp'&&hits.length){sel=(sel+hits.length-1)%hits.length;paint();e.preventDefault();}
   else if(e.key=='Enter'){
     if(hits[sel])pick(hits[sel]);
-    else if(q.value.trim())document.getElementById('result').innerHTML='<div class="card"><p><b>'+esc(q.value)+'</b> is not in his logbook, or is logged under another name.</p><p class="muted"><a href="estimate.html">Estimate it from its grade</a> instead.</p></div>';
+    else if(q.value.trim())document.getElementById('result').innerHTML='<div class="card"><p><b>'+esc(q.value)+'</b> is not in his logbook, or is logged under another name.</p><p class="muted"><a href="estimate">Estimate it from its grade</a> instead.</p></div>';
   }
   else if(e.key=='Escape'){hits=[];paint();}
 });
@@ -213,7 +213,7 @@ eG.addEventListener('change',estimate);eS.addEventListener('change',estimate);
 fillGrades();estimate();
 }
 /* ---------- static tables ---------- */
-function link(name){return '<a class="linkish" href="index.html#'+esc(norm(name))+'">'+esc(name)+'</a>';}
+function link(name){return '<a class="linkish" href="./#'+esc(norm(name))+'">'+esc(name)+'</a>';}
 function fill(id,html){var el=document.getElementById(id);if(el)el.innerHTML=html;}
 var LADDER=[
  ['O-3','easy','A scramble. The approach.',[]],
@@ -263,5 +263,13 @@ function addLatest(list){
     climbs.push({n:a.n,crag:'',type:a.t,g:a.g,yy:a.y||'',k:a.k||'w',fa:!!a.fa,key:key,gi:gi,hay:key,fresh:true});
   });
   if(added){renderTop();renderCount();hooks.forEach(function(f){f();});}
+}
+/* Pure functions, exposed for the unit tests in test/. */
+window.OGRADER={grade:grade,mix:mix,norm:norm,gradeLabel:gradeLabel,tierName:tierName,climbs:climbs,SCALES:SCALES};
+/* The Worker that serves latest.json runs on jackingtothemax.com. Copies of the site elsewhere
+   (jackvermaak.com/ograder) ask it directly; it allows that with a CORS header. */
+var LATEST=/(^|\.)jackingtothemax\.com$|^localhost$|^127\.0\.0\.1$/.test(location.hostname)?'latest.json':'https://jackingtothemax.com/ograder/latest.json';
+if(/^https?:$/.test(location.protocol)){
+  fetch(LATEST).then(function(r){return r.ok?r.json():null;}).then(function(j){if(j&&j.ascents)addLatest(j.ascents);}).catch(function(){});
 }
 })();
