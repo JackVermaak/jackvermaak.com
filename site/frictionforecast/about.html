@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>How it works | Friction Forecast</title>
+<meta name="description" content="How Friction Forecast scores bouldering conditions: rock temperature, humidity and wind, weighted per rock type, with gates for condensation, wet rock and rain.">
+<link rel="canonical" href="https://jackvermaak.com/frictionforecast/about">
+<meta property="og:type" content="website">
+<meta property="og:title" content="How it works | Friction Forecast">
+<meta property="og:url" content="https://jackvermaak.com/frictionforecast/about">
+<meta name="theme-color" content="#1d6a51">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231d6a51'/%3E%3Cpath d='M14 44 L26 24 L34 36 L40 28 L50 44 Z' fill='%23f3f5f4'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top wrap">
+  <div class="brand">
+    <h1>Friction Forecast</h1>
+    <nav aria-label="Pages"><a href="./">Forecast</a><a href="about" aria-current="page">How it works</a></nav>
+  </div>
+  <p class="tag">How each hour and each day gets its rating, and where the model is still a guess.</p>
+</header>
+<main class="wrap prose">
+  <h2>The short version</h2>
+  <p>Every hour gets a score from 0 to 100. It mostly comes from three things: how warm the rock is, how humid the air is, and how much wind there is. Each rock type weighs them differently. The score then drops to zero if it is raining, if the rock is likely wet, if the air is close to its dew point, or if the rock is far too hot or cold.</p>
+  <p>A day is rated by its best 3-hour window inside the hours worth climbing at that area. That window is what the forecast names, since it is what you would plan a session around.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Best 3-hour average</th><th>Rating</th></tr></thead>
+    <tbody>
+      <tr><td>Sandstone likely wet for the whole day's scored hours</td><td><strong>Wet</strong></td></tr>
+      <tr><td>70 or more</td><td><strong>Good</strong></td></tr>
+      <tr><td>45 to 69</td><td><strong>Okay</strong></td></tr>
+      <tr><td>Below 45</td><td><strong>Bad</strong></td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>The three comfort factors</h2>
+  <ul>
+    <li><strong>Rock temperature.</strong> Air temperature plus up to 8 °C in full sun (8 °C at 1,000 W/m² of sunshine). Full marks between 2 and 12 °C, falling in a straight line to zero at −6 and 24 °C.</li>
+    <li><strong>Humidity.</strong> Full marks at or below the rock's "good" humidity, zero at or above its "bad" humidity, a straight line between.</li>
+    <li><strong>Wind.</strong> Full marks between 8 and 25 km/h, where a breeze dries skin and rock. Calm air still scores 0.6, and a gale never scores below 0.3: it is unpleasant, not dangerous to the rock.</li>
+  </ul>
+  <div class="tbl"><table>
+    <thead><tr><th>Rock</th><th>Areas</th><th>Weights: temp / humidity / wind</th><th>Humidity good / bad</th></tr></thead>
+    <tbody>
+      <tr><td>Sandstone</td><td>Rocklands, Fontainebleau, Avalonia, Göttinger Wald</td><td>0.30 / 0.50 / 0.20</td><td>35 % / 80 %</td></tr>
+      <tr><td>Gneiss</td><td>Magic Wood</td><td>0.40 / 0.40 / 0.20</td><td>40 % / 85 %</td></tr>
+      <tr><td>Basalt</td><td>Glees</td><td>0.45 / 0.35 / 0.20</td><td>45 % / 90 %</td></tr>
+    </tbody>
+  </table></div>
+  <p>Fine sandstone with sloping holds loses friction to humidity first, so humidity counts most there. Rough gneiss and basalt still bite in damp air, so temperature counts more.</p>
+
+  <h2>The gates</h2>
+  <ul>
+    <li><strong>Rain now.</strong> 0.2 mm of rain in the hour, or a 70 % chance of rain, makes the hour score zero.</li>
+    <li><strong>Condensation.</strong> When the air is within 4 °C of its dew point the score fades, reaching zero at 1 °C. Cold rock in damp air goes greasy, mostly at dawn.</li>
+    <li><strong>Extreme rock temperature.</strong> Past −6 or 24 °C the whole score fades out, reaching zero at −16 or 34 °C. Without this, very dry air could make a scorching afternoon look good.</li>
+    <li><strong>Wet rock.</strong> Wet sandstone scores zero. Wet gneiss or basalt keeps 40 % of its score.</li>
+  </ul>
+
+  <h2>Is the rock wet?</h2>
+  <p>A simple bucket model. Each hour, rain fills the bucket, up to 3 mm (the rest runs off), and drying empties it. Drying is faster when it is warm, windy, dry and sunny. The rock counts as wet while there is water in the bucket, and porous rock stays wet for a while after the bucket empties:</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Rock</th><th>Base drying</th><th>Stays wet after the surface dries</th><th>When wet</th></tr></thead>
+    <tbody>
+      <tr><td>Sandstone</td><td>0.15 mm/h</td><td>24 hours</td><td>Hard stop: rated wet</td></tr>
+      <tr><td>Gneiss (Magic Wood)</td><td>0.20 mm/h</td><td>6 hours, for the forest shade</td><td>Score × 0.4</td></tr>
+      <tr><td>Basalt (Glees)</td><td>0.30 mm/h</td><td>None</td><td>Score × 0.4</td></tr>
+    </tbody>
+  </table></div>
+  <p>The 24 hours for sandstone follows what DAV and IG Klettern ask for at the soft sandstone in Lower Saxony: let it dry for a day after rain. Wet sandstone breaks, and broken holds do not come back. If in doubt, do not climb it, whatever this page says, and follow local guidance.</p>
+  <p>On a cloudy 10 °C day at 70 % humidity with a 10 km/h breeze, sandstone sheds about 0.16 mm an hour. A full bucket takes about 19 hours, plus the 24-hour soak: roughly two days after a big storm. Sun and wind cut that sharply.</p>
+
+  <h2>Scored hours</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Area</th><th>Hours scored</th><th>Season</th></tr></thead>
+    <tbody>
+      <tr><td>Rocklands, The Pass</td><td>10:00–17:00, the CapeNature sign-in hours</td><td>Autumn to spring</td></tr>
+      <tr><td>Magic Wood</td><td>08:00–20:00</td><td>Summer</td></tr>
+      <tr><td>Fontainebleau, Bas Cuvier</td><td>08:00–19:00</td><td>Autumn to spring</td></tr>
+      <tr><td>Avalonia, Herdecke</td><td>08:00–20:00</td><td>Autumn to spring</td></tr>
+      <tr><td>Glees, Eifel</td><td>09:00–19:00, the hunting rule</td><td>Year-round, best when cool</td></tr>
+      <tr><td>Göttinger Wald, Wiesental</td><td>08:00–20:00</td><td>Autumn to spring</td></tr>
+    </tbody>
+  </table></div>
+  <p>All times are local to the area, not to your phone.</p>
+
+  <h2>Known limits</h2>
+  <ul>
+    <li><strong>Grid versus microclimate.</strong> The weather model works on cells several kilometres wide. Magic Wood sits in a forested ravine by a river and is probably damper and cooler than its cell.</li>
+    <li><strong>Rock temperature is an estimate.</strong> Sun versus shade matters most, and the forecast does not know which way a boulder faces yet.</li>
+    <li><strong>Wetness is a rule of thumb.</strong> The page never calls sandstone dry, only "not wet" by the model.</li>
+    <li><strong>Days 5 to 7 are less certain</strong> than days 1 and 2, so they are drawn slightly faded.</li>
+    <li><strong>Every number is a first guess.</strong> They get tuned against logged sessions: the temperature band first, then the humidity limits, then the sun warming.</li>
+  </ul>
+
+  <h2>Data and privacy</h2>
+  <p>Weather data is by <a href="https://open-meteo.com/" rel="noopener">Open-Meteo.com</a>, under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener">CC BY 4.0</a>, from its free non-commercial API. Your browser asks Open-Meteo for the forecast directly, in one request for all six areas, and keeps the answer on your device for an hour so it also works offline. Nothing about you is stored anywhere else.</p>
+  <p>The code is on <a href="https://github.com/JackVermaak/friction-forecast" rel="noopener">GitHub</a>, MIT licensed.</p>
+</main>
+<footer>
+  <div class="wrap">
+    <span>Weather data by <a href="https://open-meteo.com/" rel="noopener">Open-Meteo.com</a> (<a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener">CC BY 4.0</a>). Ratings are guidance, not a promise.</span>
+    <nav aria-label="More"><a href="./">Forecast</a><a href="/ograder/">O-Grader</a><a href="/">jackvermaak.com</a><a href="https://github.com/JackVermaak/friction-forecast" rel="noopener">GitHub</a></nav>
+  </div>
+</footer>
+</body>
+</html>

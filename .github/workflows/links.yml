@@ -32,13 +32,15 @@ jobs:
       - uses: lycheeverse/lychee-action@v2
         with:
           # Only http(s) links; internal ones are checked by tools/check_links.py.
-          # LinkedIn and Instagram refuse automated requests, so they are skipped.
+          # LinkedIn and Instagram refuse automated requests, so they are skipped. The Open-Meteo API
+          # host is only a preconnect hint and answers 400 without a query.
           args: >-
             --no-progress
             --scheme https --scheme http
             --root-dir ${{ github.workspace }}/site
             --exclude-path site/ograder/data.js
             --exclude "linkedin\.com" --exclude "instagram\.com"
+            --exclude "api\.open-meteo\.com"
             --accept 200,206,429
             --max-retries 3
             "site/**/*.html"

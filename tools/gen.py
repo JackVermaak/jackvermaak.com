@@ -13,6 +13,7 @@ FONTS = ('<link rel="preload" href="/fonts/plex-sans-400.woff2" as="font" type="
 REPOS = {'Pico MixPad': 'https://github.com/JackVermaak/pico-mixpad',
          'Pico Latency Tester': 'https://github.com/JackVermaak/pico-latency-tester',
          'O-Grader': 'https://github.com/JackVermaak/ograder',
+         'Friction Forecast': 'https://github.com/JackVermaak/friction-forecast',
          'Forest fire spread simulation': 'https://github.com/JackVermaak/ForestFireSpreadSim',
          'Morning phone lock': 'https://github.com/JackVermaak/morning-lock'}
 
@@ -115,12 +116,15 @@ PROJECTS = [
  ('/ograder/', '2026', 'Personal', 'O-Grader',
   'Shows Adam Ondra\'s ascents on his O-grade scale, using scraped ascent data, with an estimator for any grade.',
   'Cloudflare Workers &middot; scraped data'),
+ ('/frictionforecast/', '2026', 'Personal', 'Friction Forecast',
+  'A 7-day bouldering conditions forecast for six areas: good, okay, bad or wet, with the best session window each day.',
+  'JavaScript &middot; Open-Meteo'),
  ('https://synapse.nrw', 'Ongoing', 'Work', 'synapse.nrw',
   'The website for the Synapse student space at my university. I built it and maintain it.',
   'TYPO3 v13 &middot; PHP &middot; Git'),
 ]
 
-DISPLAY = ['synapse.nrw', 'O-Grader', 'Pico MixPad', 'Pico Latency Tester', 'Hydrogen-powered excavator',
+DISPLAY = ['synapse.nrw', 'Friction Forecast', 'O-Grader', 'Pico MixPad', 'Pico Latency Tester', 'Hydrogen-powered excavator',
            'Software-defined radio receiver', 'Forest fire spread simulation', 'Virtual reality card game']
 SORTED = sorted(PROJECTS, key=lambda p: DISPLAY.index(p[3]))
 FEATURED = [p for p in PROJECTS if p[3] in ('Pico MixPad', 'Pico Latency Tester', 'Hydrogen-powered excavator')]
@@ -407,6 +411,8 @@ FAVICON = '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect w
 
 
 SITE = os.path.join(HERE, '..', 'site')
+# Pages of apps copied in by tools/sync_apps.py whose canonical address is this site.
+APP_URLS = ['/frictionforecast/', '/frictionforecast/about']
 
 def write_all(outdir=SITE):
     """Regenerate the HTML pages in site/. styles.css, site.js, favicon.svg, the CV and photos/ are edited in site/ directly."""
@@ -417,7 +423,9 @@ def write_all(outdir=SITE):
         open(path, 'w').write(html)
     # Search engines: every indexed page, plus the robots.txt that points to the list.
     # The O-Grader copy in site/ograder is left out: its canonical address is jackingtothemax.com/ograder.
+    # Friction Forecast (site/frictionforecast, copied by tools/sync_apps.py) lives only here, so it is listed.
     urls = ''.join(f'  <url><loc>{BASE + url(p["path"])}</loc></url>\n' for p in PAGES if p['indexed'])
+    urls += ''.join(f'  <url><loc>{BASE}{u}</loc></url>\n' for u in APP_URLS)
     open(os.path.join(outdir, 'sitemap.xml'), 'w').write(
         '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + '</urlset>\n')
     open(os.path.join(outdir, 'robots.txt'), 'w').write(f'User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n')
