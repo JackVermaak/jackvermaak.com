@@ -36,6 +36,7 @@ jobs:
           args: >-
             --no-progress
             --scheme https --scheme http
+            --root-dir ${{ github.workspace }}/site
             --exclude-path site/ograder/data.js
             --exclude "linkedin\.com" --exclude "instagram\.com"
             --accept 200,206,429
