@@ -15,7 +15,8 @@ REPOS = {'Pico MixPad': 'https://github.com/JackVermaak/pico-mixpad',
          'O-Grader': 'https://github.com/JackVermaak/ograder',
          'Friction Forecast': 'https://github.com/JackVermaak/friction-forecast',
          'Forest fire spread simulation': 'https://github.com/JackVermaak/ForestFireSpreadSim',
-         'Morning phone lock': 'https://github.com/JackVermaak/morning-lock'}
+         'Morning phone lock': 'https://github.com/JackVermaak/morning-lock',
+         'Battleships': 'https://github.com/JackVermaak/Battleships'}
 
 def url(path):
     """Root-absolute, extension-free URLs (Cloudflare Pages serves about.html at /about), so links never redirect
@@ -113,6 +114,9 @@ PROJECTS = [
  ('projects/vr-card-game.html', '2024', 'University', 'Virtual reality card game',
   'A VR card duel in Unity where you pick up and play cards against a computer opponent.',
   'Unity &middot; C# &middot; Oculus XR'),
+ ('projects/battleships.html', '2024', 'University', 'Battleships',
+  'Multiplayer Battleships over TCP, played in the terminal, rebuilt since the course with computer players and tests.',
+  'Python &middot; asyncio &middot; TCP'),
  ('/ograder/', '2026', 'Personal', 'O-Grader',
   'Shows Adam Ondra\'s ascents on his O-grade scale, using scraped ascent data, with an estimator for any grade.',
   'Cloudflare Workers &middot; scraped data'),
@@ -125,7 +129,7 @@ PROJECTS = [
 ]
 
 DISPLAY = ['synapse.nrw', 'Friction Forecast', 'O-Grader', 'Pico MixPad', 'Pico Latency Tester', 'Hydrogen-powered excavator',
-           'Software-defined radio receiver', 'Forest fire spread simulation', 'Virtual reality card game']
+           'Software-defined radio receiver', 'Forest fire spread simulation', 'Battleships', 'Virtual reality card game']
 SORTED = sorted(PROJECTS, key=lambda p: DISPLAY.index(p[3]))
 FEATURED = [p for p in PROJECTS if p[3] in ('Pico MixPad', 'Pico Latency Tester', 'Hydrogen-powered excavator')]
 
@@ -387,6 +391,37 @@ def vr(root):
     facts = [('Year', 'Summer 2024'), ('Type', 'University team project'), ('Team', '4 students'), ('Built with', 'Unity (C#), Oculus XR'), ('Grade', '1.3, highest in the class')]
     return proj(root, 5, 'A card duel you play with your hands in VR.', facts, body)
 
+# A turn as the game prints it, generated with the Battleships code (game.render and side_by_side).
+BATTLESHIPS_TURN = '''Bot Bea fires at Jack, C1: HIT.
+Your fleet                  2: Bot Ada, 4 ships left
+   A B C D E F G H I J         A B C D E F G H I J
+ 1 A X X A A . . . . .       1 . . . . . . . . . .
+ 2 . . . . . . . . . .       2 . . . . . . X . . .
+ 3 C C C . . . . . . .       3 . . o . . . . . . .
+ 4 D D . . . . B B B B       4 . . . . . . . . . .
+ 5 . . . . . . . . . .       5 . . . . . . . . . .
+ 6 . . . o . . . . . .       6 . . # # # . . . . .
+ 7 . . . . . . . . . .       7 . . . . . . . . . .
+ 8 . . . . . S . . . o       8 . . . . . . . o . .
+ 9 . . . . . S . . . .       9 . . . . . . . . . .
+10 . . . . . S . . . .      10 . . . . . . . . . .
+&gt; Your turn. Type a player number and a cell, e.g. 2 B7
+<b>2 H2</b>
+Jack fires at Bot Ada, H2: HIT. Bot Ada's Destroyer is sunk!'''
+
+def battleships(root):
+    body = f'''<figure><pre class="term" role="img" aria-label="A turn in the terminal: your fleet next to an opponent's board, a prompt, and the shot that sinks their Destroyer">{BATTLESHIPS_TURN}</pre>
+<figcaption>A turn against two computer players. Letters are your ships, X a hit, o a miss and # a sunk ship. The line in colour is what the player typed.</figcaption></figure>
+<p>A pair project for Programming Distributed Systems. We wrote Battleships for three players in Python: a server holds the boards and runs the game, and each player connects to it over TCP from a terminal. Everyone guesses a number at the start, and the closest guess goes first.</p>
+<h2>Improvements since the course</h2>
+<p>The course version worked as a sketch, but a typo in a coordinate crashed the server, two messages could arrive stuck together because TCP has no message boundaries, and the target of each shot was picked at random. I rebuilt it. Every message is now one line, and every answer is checked, with a wrong one explained and asked again. Everyone places ships at the same time, you choose which opponent to fire at, and each turn shows your fleet and every opponent's known board. Every hit, sunk ship and knocked-out player is announced to everyone.</p>
+<p>The server now uses asyncio and copes with players leaving: whoever disconnects is out, and the game carries on without them. Games take 2 to 6 players, and computer players can fill empty seats. They only use what every player can see, hunting around a hit and otherwise firing in a checkerboard pattern. That sinks a fleet in about 52 shots on average, against about 95 for random firing.</p>
+<p>The game rules are now separate from the networking and covered by 37 pytest tests. They include full games against a real server over TCP, with scripted players who make typing mistakes and drop out mid-game.</p>'''
+    facts = [('Year', '2024, improved in 2026'), ('Type', 'University pair project'), ('Course', 'Programming Distributed Systems'),
+             ('Players', '2 to 6 over TCP, with optional computer players'), ('Built with', 'Python, asyncio, sockets, pytest')]
+    return proj(root, 6, 'Battleships for several players over a network, played in the terminal.', facts, body,
+                [('Code on GitHub', REPOS['Battleships']), ('Version handed in for the course', REPOS['Battleships'] + '/tree/course-2024')])
+
 def notfound(root):
     return f'''<section class="wrap page-intro"><p class="crumbs">Error 404</p><h1>Page not found</h1>
 <p class="lede">There is nothing at this address. The page may have moved, or the link may have a typo.</p>
@@ -404,6 +439,7 @@ PAGES = [
  page('projects/sdr-receiver.html', 'Software-defined radio receiver | Jack Vermaak', 'A 4-PAM software radio receiver in MATLAB.', 'Projects', sdr),
  page('projects/fire-simulation.html', 'Forest fire spread simulation | Jack Vermaak', 'A wildfire spread model in Python.', 'Projects', fire),
  page('projects/vr-card-game.html', 'Virtual reality card game | Jack Vermaak', 'A VR card duel game built in Unity.', 'Projects', vr),
+ page('projects/battleships.html', 'Battleships | Jack Vermaak', 'A multiplayer Battleships game over TCP in Python, with computer players.', 'Projects', battleships),
  page('404.html', 'Page not found | Jack Vermaak', 'This page does not exist.', None, notfound, indexed=False),
 ]
 

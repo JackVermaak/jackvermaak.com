@@ -204,6 +204,8 @@ figure { margin: 0; border: 1px solid var(--line); border-radius: 10px; backgrou
 figure > img, figure > video { display: block; width: 100%; height: auto; border-radius: 6px; }
 .photo-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: center; }
 .photo-pair figcaption { grid-column: 1 / -1; margin-top: 2px; }
+pre.term { margin: 0; font: 400 12.5px/1.45 var(--mono); color: var(--ink); background: var(--paper); border-radius: 6px; padding: 14px 16px; overflow-x: auto; }
+pre.term b { color: var(--accent); font-weight: 600; }
 figcaption { font-size: 14px; color: var(--muted); margin-top: 14px; line-height: 1.5; }
 .fig { display: block; width: 100%; max-width: 420px; height: auto; margin: 0 auto; font: 10px var(--mono); }
 .fig text { fill: var(--muted); }

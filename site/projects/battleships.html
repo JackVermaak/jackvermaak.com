@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Battleships | Jack Vermaak</title>
+<meta name="description" content="A multiplayer Battleships game over TCP in Python, with computer players.">
+<link rel="canonical" href="https://jackvermaak.com/projects/battleships">
+<meta property="og:url" content="https://jackvermaak.com/projects/battleships">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Jack Vermaak">
+<meta property="og:title" content="Battleships | Jack Vermaak">
+<meta property="og:description" content="A multiplayer Battleships game over TCP in Python, with computer players.">
+<meta property="og:image" content="https://jackvermaak.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Jack Vermaak: engineering student, software, hardware and electronics">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<script>try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="/styles.css?v=af551290">
+<link rel="preload" href="/fonts/plex-sans-400.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/source-serif-4.woff2" as="font" type="font/woff2" crossorigin>
+<script src="/site.js?v=da0adf41" defer></script>
+</head>
+<body>
+<header class="site-header"><div class="wrap"><a class="wordmark" href="/">Jack Vermaak</a><div class="header-right"><nav class="site-nav" aria-label="Main"><a href="/">Home</a><a href="/projects" aria-current="page">Projects</a><a href="/about">About</a><a href="/contact">Contact</a><a href="/Jack_Vermaak_CV.pdf" target="_blank" rel="noopener">CV &#8599;</a></nav><button class="icon-btn theme-toggle" type="button" aria-label="Switch theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button><button class="icon-btn menu-toggle" type="button" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></header>
+<main>
+<section class="wrap page-intro"><p class="crumbs"><a href="/projects">Projects</a> / University / 2024</p>
+<h1>Battleships</h1><p class="lede">Battleships for several players over a network, played in the terminal.</p></section>
+<section class="wrap article">
+<div class="prose"><figure><pre class="term" role="img" aria-label="A turn in the terminal: your fleet next to an opponent's board, a prompt, and the shot that sinks their Destroyer">Bot Bea fires at Jack, C1: HIT.
+Your fleet                  2: Bot Ada, 4 ships left
+   A B C D E F G H I J         A B C D E F G H I J
+ 1 A X X A A . . . . .       1 . . . . . . . . . .
+ 2 . . . . . . . . . .       2 . . . . . . X . . .
+ 3 C C C . . . . . . .       3 . . o . . . . . . .
+ 4 D D . . . . B B B B       4 . . . . . . . . . .
+ 5 . . . . . . . . . .       5 . . . . . . . . . .
+ 6 . . . o . . . . . .       6 . . # # # . . . . .
+ 7 . . . . . . . . . .       7 . . . . . . . . . .
+ 8 . . . . . S . . . o       8 . . . . . . . o . .
+ 9 . . . . . S . . . .       9 . . . . . . . . . .
+10 . . . . . S . . . .      10 . . . . . . . . . .
+&gt; Your turn. Type a player number and a cell, e.g. 2 B7
+<b>2 H2</b>
+Jack fires at Bot Ada, H2: HIT. Bot Ada's Destroyer is sunk!</pre>
+<figcaption>A turn against two computer players. Letters are your ships, X a hit, o a miss and # a sunk ship. The line in colour is what the player typed.</figcaption></figure>
+<p>A pair project for Programming Distributed Systems. We wrote Battleships for three players in Python: a server holds the boards and runs the game, and each player connects to it over TCP from a terminal. Everyone guesses a number at the start, and the closest guess goes first.</p>
+<h2>Improvements since the course</h2>
+<p>The course version worked as a sketch, but a typo in a coordinate crashed the server, two messages could arrive stuck together because TCP has no message boundaries, and the target of each shot was picked at random. I rebuilt it. Every message is now one line, and every answer is checked, with a wrong one explained and asked again. Everyone places ships at the same time, you choose which opponent to fire at, and each turn shows your fleet and every opponent's known board. Every hit, sunk ship and knocked-out player is announced to everyone.</p>
+<p>The server now uses asyncio and copes with players leaving: whoever disconnects is out, and the game carries on without them. Games take 2 to 6 players, and computer players can fill empty seats. They only use what every player can see, hunting around a hit and otherwise firing in a checkerboard pattern. That sinks a fleet in about 52 shots on average, against about 95 for random firing.</p>
+<p>The game rules are now separate from the networking and covered by 37 pytest tests. They include full games against a real server over TCP, with scripted players who make typing mistakes and drop out mid-game.</p><p><a href="https://github.com/JackVermaak/Battleships" target="_blank" rel="noopener">Code on GitHub &#8599;</a></p><p><a href="https://github.com/JackVermaak/Battleships/tree/course-2024" target="_blank" rel="noopener">Version handed in for the course &#8599;</a></p></div>
+<aside class="spec" aria-label="Project details"><div class="spec-head"><span class="label">Spec sheet</span></div><dl><div><dt>Year</dt><dd>2024, improved in 2026</dd></div><div><dt>Type</dt><dd>University pair project</dd></div><div><dt>Course</dt><dd>Programming Distributed Systems</dd></div><div><dt>Players</dt><dd>2 to 6 over TCP, with optional computer players</dd></div><div><dt>Built with</dt><dd>Python, asyncio, sockets, pytest</dd></div></dl></aside>
+</section>
+<nav class="wrap pager" aria-label="More projects"><a class="prev" href="/projects/vr-card-game"><span class="label">&larr; Previous</span><strong>Virtual reality card game</strong></a><a class="next" href="/ograder/"><span class="label">Next &rarr;</span><strong>O-Grader</strong></a></nav>
+</main>
+<footer class="site-footer"><div class="wrap"><span>&copy; <span id="year">2026</span> Jack Vermaak &middot; NRW, Germany</span><nav aria-label="Elsewhere"><a class="ig" href="https://www.instagram.com/jack_vermaak/" target="_blank" rel="noopener" aria-label="Instagram, @jack_vermaak"><span class="ico ig-ico" aria-hidden="true"></span><span>@jack_vermaak</span></a><a href="https://www.linkedin.com/in/jack-vermaak/" target="_blank" rel="noopener">LinkedIn &#8599;</a><a href="https://github.com/JackVermaak" target="_blank" rel="noopener">GitHub &#8599;</a><a href="/Jack_Vermaak_CV.pdf" target="_blank" rel="noopener">CV &#8599;</a></nav></div></footer>
+</body>
+</html>
