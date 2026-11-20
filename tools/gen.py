@@ -16,7 +16,8 @@ REPOS = {'Pico MixPad': 'https://github.com/JackVermaak/pico-mixpad',
          'Friction Forecast': 'https://github.com/JackVermaak/friction-forecast',
          'Forest fire spread simulation': 'https://github.com/JackVermaak/ForestFireSpreadSim',
          'Morning phone lock': 'https://github.com/JackVermaak/morning-lock',
-         'Battleships': 'https://github.com/JackVermaak/Battleships'}
+         'Battleships': 'https://github.com/JackVermaak/Battleships',
+         'Virtual reality card game': 'https://github.com/JackVermaak/MagicMayhem'}
 
 def url(path):
     """Root-absolute, extension-free URLs (Cloudflare Pages serves about.html at /about), so links never redirect
@@ -149,6 +150,7 @@ BENCH = [
    ('Steam balance finder', 'In progress', 'A site that finds CS2 skins on third-party markets that sell for more on the Steam market, after Steam\'s 15% fee.'),
    ('Homelab', 'In progress', 'An old PC turned Linux server for self-hosting, Docker and network services.'),
    ('Local AI game builder', 'In progress', 'A setup that lets local AI models build and test a small game overnight on my own hardware.'),
+   ('Finger strength trainer', 'Planned', 'A training app for finger-strength tests. It starts with my WH-C06 crane scale over Bluetooth, then moves to a cheap crane scale rebuilt with a Raspberry Pi Pico 2 W and a fast load-cell amplifier. It runs my own protocols (max hangs, one-arm lifts, repeaters and critical force), detects reps automatically and tracks progress over time. The Pico version reads force more than 80 times a second, fast enough to measure rate of force development, a feature commercial alternatives charge over &euro;100 for.'),
    ('MixPad desktop app in C++', 'Planned', 'A C++ version of the MixPad desktop app to replace the current Python one.'),
    ('Pico MixPad v2', 'Planned', 'A custom circuit board with hot-swap key sockets in place of the hand wiring.'),
    ('CS2 second-screen companion', 'Planned', 'A second-screen site for CS2 that automatically shows the key smoke lineups and minimap callouts for your current map and side.'),
@@ -236,8 +238,8 @@ def about(root):
 <p class="lede">Engineering student, former ERP consultant and long-time boulderer.</p></section>
 <section class="wrap about-single about-centre">
 <div class="prose">
-<p>I am Jack Vermaak, an Infotronic Systems Engineering student at Hochschule Rhein-Waal in Germany. The degree combines electronics, computer engineering and software, and I expect to finish in late 2027.</p>
-<p>My main interest is where hardware and software meet: what runs on a microcontroller, what runs on a computer, and how the two communicate. Recent projects include a USB audio controller, a click-to-screen latency tester, a software radio receiver and the electrical system for a hydrogen-powered excavator.</p>
+<p>I am Jack Vermaak, an Infotronic Systems Engineering student at Hochschule Rhein-Waal in Germany. The degree combines electronics, computer engineering and software.</p>
+<p>My main interest is where hardware and software meet: what runs on a microcontroller, what runs on a computer, and how the two communicate. Recent projects include a USB audio controller, a click-to-screen latency tester, a software radio receiver and the electrical system for a hydrogen-powered excavator. On the software side, I have built a 7-day bouldering conditions forecast and a site that shows Adam Ondra's ascents on his own grading scale.</p>
 <p>I grew up in South Africa and spent two and a half years in Cape Town as a Workday ERP consultant before moving to Germany to study. That work taught me to gather requirements from clients, document processes, test changes carefully and resolve data problems.</p>
 <p>Outside of study and work, I have been bouldering for over 12 years, with several outdoor problems up to V11 (8A).</p>
 </div>
@@ -248,7 +250,7 @@ def about(root):
 </section>
 <section class="wrap section">
 <div class="section-head"><h2>Education</h2></div>
-<ol class="timeline"><li><span class="when">Sep 2022 &ndash; 2027</span><div><h3>B.Sc. Infotronic Systems Engineering</h3><p class="where">Hochschule Rhein-Waal &middot; Kamp-Lintfort &middot; Taught in English</p>
+<ol class="timeline"><li><span class="when">Sep 2022 &ndash; present</span><div><h3>B.Sc. Infotronic Systems Engineering</h3><p class="where">Hochschule Rhein-Waal &middot; Kamp-Lintfort &middot; Taught in English</p>
 <p class="what">Current average 2.3 on the German scale, where 1.0 is the best grade. Strongest modules: Machine Learning (top grade in the class), Communication Systems (2nd of 18) and Computer Networks (5th of 38).</p></div></li></ol>
 </section>
 <section class="wrap section" style="padding-bottom: 72px">
@@ -386,10 +388,13 @@ def fire(root):
 
 def vr(root):
     body = f'''<figure>{VR}<figcaption>The spell cards: each element beats one of the others and loses to the third.</figcaption></figure>
-<p>A team project for the Innovative Technologies course. Four of us built a card duel game in virtual reality with Unity and Oculus XR. You stand at a table, physically pick up cards and play them against a computer opponent.</p>
-<p>The project got a 1.3, the highest grade in the class.</p>'''
+<p>A team project for the Innovative Technologies course. Four of us built Magic Mayhem, a card duel game in virtual reality, with Unity and Oculus XR. You stand at a table, physically pick up cards and play them against a computer opponent.</p>
+<p>The project got a 1.3, the highest grade in the class.</p>
+<h2>Improvements since the course</h2>
+<p>The game logic was one large script that also spawned cards, played sounds and updated the score. The rules (elements, the deck, rounds and scoring) are now a separate C# library with no Unity code, covered by 15 NUnit tests. The tests run in Unity and also on GitHub Actions, without a Unity licence.</p>
+<p>Several bugs are fixed. A card released anywhere was played if it had touched the table spot earlier, a played card could be picked up and played again, and a tied match ended with an error message. The computer is now dealt its own hand like the player, a tie goes to extra rounds, and each round says why it was won or lost.</p>'''
     facts = [('Year', 'Summer 2024'), ('Type', 'University team project'), ('Team', '4 students'), ('Built with', 'Unity (C#), Oculus XR'), ('Grade', '1.3, highest in the class')]
-    return proj(root, 5, 'A card duel you play with your hands in VR.', facts, body)
+    return proj(root, 5, 'A card duel you play with your hands in VR.', facts, body, [('Code on GitHub', REPOS['Virtual reality card game'])])
 
 # A turn as the game prints it, generated with the Battleships code (game.render and side_by_side).
 BATTLESHIPS_TURN = '''Bot Bea fires at Jack, C1: HIT.
@@ -417,10 +422,10 @@ def battleships(root):
 <p>The course version worked as a sketch, but a typo in a coordinate crashed the server, two messages could arrive stuck together because TCP has no message boundaries, and the target of each shot was picked at random. I rebuilt it. Every message is now one line, and every answer is checked, with a wrong one explained and asked again. Everyone places ships at the same time, you choose which opponent to fire at, and each turn shows your fleet and every opponent's known board. Every hit, sunk ship and knocked-out player is announced to everyone.</p>
 <p>The server now uses asyncio and copes with players leaving: whoever disconnects is out, and the game carries on without them. Games take 2 to 6 players, and computer players can fill empty seats. They only use what every player can see, hunting around a hit and otherwise firing in a checkerboard pattern. That sinks a fleet in about 52 shots on average, against about 95 for random firing.</p>
 <p>The game rules are now separate from the networking and covered by 37 pytest tests. They include full games against a real server over TCP, with scripted players who make typing mistakes and drop out mid-game.</p>'''
-    facts = [('Year', '2024, improved in 2026'), ('Type', 'University pair project'), ('Course', 'Programming Distributed Systems'),
+    facts = [('Year', '2024'), ('Type', 'University pair project'), ('Course', 'Programming Distributed Systems'),
              ('Players', '2 to 6 over TCP, with optional computer players'), ('Built with', 'Python, asyncio, sockets, pytest')]
     return proj(root, 6, 'Battleships for several players over a network, played in the terminal.', facts, body,
-                [('Code on GitHub', REPOS['Battleships']), ('Version handed in for the course', REPOS['Battleships'] + '/tree/course-2024')])
+                [('Code on GitHub', REPOS['Battleships'])])
 
 def notfound(root):
     return f'''<section class="wrap page-intro"><p class="crumbs">Error 404</p><h1>Page not found</h1>
