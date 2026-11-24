@@ -99,7 +99,7 @@ NATHAN = 'https://www.instagram.com/nathanphillipsclimbing/'
 PROJECTS = [
  ('projects/mixpad.html', '2026', 'Personal', 'Pico MixPad',
   'A USB controller that sets Windows volume per application, with its own firmware, desktop app and case.',
-  'RP2350 &middot; CircuitPython &middot; Python'),
+  'RP2350 &middot; CircuitPython &middot; Rust'),
  ('projects/latency-tester.html', '2026', 'Personal', 'Pico Latency Tester',
   'A device that measures the delay between a mouse click and the screen changing.',
   'RP2350 &middot; C++ &middot; TinyUSB'),
@@ -151,7 +151,6 @@ BENCH = [
    ('Homelab', 'In progress', 'An old PC turned Linux server for self-hosting, Docker and network services.'),
    ('Local AI game builder', 'In progress', 'A setup that lets local AI models build and test a small game overnight on my own hardware.'),
    ('Finger strength trainer', 'Planned', 'A training app for finger-strength tests. It starts with my WH-C06 crane scale over Bluetooth, then moves to a cheap crane scale rebuilt with a Raspberry Pi Pico 2 W and a fast load-cell amplifier. It runs my own protocols (max hangs, one-arm lifts, repeaters and critical force), detects reps automatically and tracks progress over time. The Pico version reads force more than 80 times a second, fast enough to measure rate of force development, a feature commercial alternatives charge over &euro;100 for.'),
-   ('MixPad desktop app in C++', 'Planned', 'A C++ version of the MixPad desktop app to replace the current Python one.'),
    ('Pico MixPad v2', 'Planned', 'A custom circuit board with hot-swap key sockets in place of the hand wiring.'),
    ('CS2 second-screen companion', 'Planned', 'A second-screen site for CS2 that automatically shows the key smoke lineups and minimap callouts for your current map and side.'),
  ]),
@@ -304,8 +303,8 @@ def mixpad(root):
     body = f'''<figure class="photo-pair">{img('mixpad-muted.jpg', 'The finished Pico MixPad: the screen lists app volumes with a MIC MUTED banner, the red light is on, with five knobs and eight coloured keys', 664, 800, lazy=False)}<video src="/photos/mixpad-knob.mp4" poster="/photos/mixpad-knob-poster.jpg" width="720" height="720" autoplay muted loop playsinline aria-label="Turning an app knob changes that app's volume bar on the screen"></video><figcaption>The finished pad with the microphone muted, and an app knob changing Discord's volume on the screen.</figcaption></figure>
 <p>I wanted a quicker way to balance game, voice chat and music than opening the Windows volume mixer, so I built a controller for it. It has a main volume knob, four knobs for individual apps, eight mechanical keys and a small screen that shows what each knob controls. Pressing any knob mutes it, and one key mutes the microphone.</p>
 <h2>How it works</h2>
-<p>The pad connects over USB and appears as a keyboard, a media controller and a serial port at the same time, so the main volume knob and media keys work on any computer with nothing installed. A Python app on the PC adds per-app control through the Windows audio API and communicates with the pad over a simple text protocol I designed.</p>
-<p>The firmware is written in CircuitPython, and the Pico's programmable I/O reads the knobs in hardware so no steps are missed. The knobs send how far they were turned rather than a fixed position, so changing a volume in Windows never fights the hardware. The desktop app has 22 unit tests that run without the pad attached, on every push to GitHub.</p>
+<p>The pad connects over USB and appears as a keyboard, a media controller and a serial port at the same time, so the main volume knob and media keys work on any computer with nothing installed. A desktop app on the PC adds per-app control through the Windows audio API and communicates with the pad over a simple text protocol I designed. It is written in Rust and ships as a single small <code>.exe</code> with no install: it sits in the notification area, and clicking its icon opens a settings page for every key, knob and the screen. It replaced my first version in Python, which is still in the repository.</p>
+<p>The firmware is written in CircuitPython, and the Pico's programmable I/O reads the knobs in hardware so no steps are missed. The knobs send how far they were turned rather than a fixed position, so changing a volume in Windows never fights the hardware. Both desktop apps have unit tests that run without the pad attached (15 for the Rust app, 22 for the Python one), and every push to GitHub also builds the Windows program.</p>
 <h3>Serial messages</h3>
 <div class="table-scroll"><table><thead><tr><th>From</th><th>Message</th><th>Meaning</th></tr></thead><tbody>
 <tr><td>PC</td><td><code>?</code></td><td>Is a pad connected?</td></tr>
@@ -320,8 +319,8 @@ def mixpad(root):
 <p>The case is a 3D-printed plate and tray, generated from one parametric OpenSCAD file. The switches and knobs are hand-wired with jumper leads that plug onto the Pico's header pins, so nothing is soldered to the Pico itself and it can be reused on the planned circuit board.</p>
 <figure class="photo-pair">{img('mixpad-plate.jpg', 'The printed top plate with eight purple MX switches, five rotary encoders, the screen and both LEDs fitted, before keycaps and knobs', 655, 800)}{img('mixpad-wiring.jpg', 'The underside of the plate: every switch and encoder wired with coloured jumper leads to the Pico in the tray', 800, 661)}<figcaption>Left: switches, encoders, screen and LEDs in the printed plate. Right: the hand wiring underneath.</figcaption></figure>
 <h2>Next steps</h2>
-<p>A custom circuit board with hot-swap key sockets instead of hand wiring, and a C++ version of the desktop app to replace the Python one.</p>'''
-    facts = [('Year', '2026'), ('Type', 'Personal project'), ('MCU', 'Raspberry Pi Pico 2 (RP2350)'), ('Inputs', '5 rotary encoders, 8 Cherry MX keys'), ('Display', 'SSD1306 OLED'), ('Software', 'CircuitPython, Python, pytest'), ('Case', 'Parametric, OpenSCAD')]
+<p>A custom circuit board with hot-swap key sockets instead of hand wiring.</p>'''
+    facts = [('Year', '2026'), ('Type', 'Personal project'), ('MCU', 'Raspberry Pi Pico 2 (RP2350)'), ('Inputs', '5 rotary encoders, 8 Cherry MX keys'), ('Display', 'SSD1306 OLED'), ('Software', 'CircuitPython, Rust, Python'), ('Case', 'Parametric, OpenSCAD')]
     return proj(root, 0, 'A USB controller for setting Windows volume per application.', facts, body, [('Code on GitHub', REPOS['Pico MixPad'])])
 
 def latency(root):
