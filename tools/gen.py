@@ -173,13 +173,13 @@ def bench():
 
 EXPERIENCE = [
  ('Apr 2026 &ndash; now', 'Student Assistant, TransRegINT', 'Hochschule Rhein-Waal &middot; Kamp-Lintfort',
-  'Python tools for a regional energy project, one using the Google Places API, that found more than 500 companies in the region and collected their public contact details. Also compiled German energy prices from 2016 to 2026 and built an internal site for comparing them.'),
+  'Python tools for a regional energy project, one using the Google Places API, that found more than 500 companies in the region and collected their public contact details. Also compiled German energy prices from 2016 to 2026 and built an internal site for comparing them; the data was used in the project\'s talks and presentations.'),
  ('Sep 2025 &ndash; now', 'Web Developer, Synapse student space', 'Hochschule Rhein-Waal &middot; Kamp-Lintfort',
-  f'Built and maintain <a href="https://synapse.nrw" {EXT}>synapse.nrw</a> on TYPO3 v13 as its only developer, including a custom extension for the site\'s design. Updates go out over SSH with Composer.'),
+  f'Built and maintain <a href="https://synapse.nrw" {EXT}>synapse.nrw</a> on TYPO3 v13 as its only developer: the site students use to find Synapse\'s tutoring, IT support and events, with a daily schedule, monthly calendar, event archive, FAQ and contact form. Wrote a TYPO3 extension that applies the designer\'s brand guide across the site. Updates go out over SSH with Composer and Git.'),
  ('Oct &ndash; Dec 2024', 'Reverse Logistics Associate', 'Amazon fulfilment centre, via GI Group &middot; Germany',
   'Processed customer returns in Amazon\'s internal systems. Offered a nine-month extension at the end of the three-month placement.'),
  ('Feb 2020 &ndash; Aug 2022', 'Functional Analyst / ERP Consultant', 'Virtual Resource &middot; Cape Town',
-  'Implemented and supported Workday HR and finance for three multinational clients. Gathered requirements, wrote functional documentation, tested rollouts and fixed data integration and reporting issues.'),
+  'Implemented and supported Workday HR and finance for three multinational clients. Gathered requirements with client teams, wrote functional documentation, wrote and ran test cases for rollouts and releases, and fixed data integration and reporting issues.'),
 ]
 
 def timeline(with_text):
@@ -250,15 +250,16 @@ def about(root):
 <section class="wrap section">
 <div class="section-head"><h2>Education</h2></div>
 <ol class="timeline"><li><span class="when">Sep 2022 &ndash; present</span><div><h3>B.Sc. Infotronic Systems Engineering</h3><p class="where">Hochschule Rhein-Waal &middot; Kamp-Lintfort &middot; Taught in English</p>
-<p class="what">Current average 2.3 on the German scale, where 1.0 is the best grade. Strongest modules: Machine Learning (top grade in the class), Communication Systems (2nd of 18) and Computer Networks (5th of 38).</p></div></li></ol>
+<p class="what">Strongest modules: Machine Learning (top grade in the class), Communication Systems (2nd of 18), Physics (5th of 35), Computer Networks (5th of 38), Higher Mathematics 2 (8th of 57) and Computer Science (10th of 64).</p></div></li></ol>
 </section>
 <section class="wrap section" style="padding-bottom: 72px">
 <div class="section-head"><h2>Tools I use</h2></div>
 <dl class="skills">
-<div><dt>Languages</dt><dd>Python, C++, C#, Java, PHP, HTML/CSS</dd></div>
-<div><dt>Embedded</dt><dd>Raspberry Pi Pico 2 (RP2350), Arduino, Raspberry Pi, CircuitPython, TinyUSB, USB HID, I2C</dd></div>
-<div><dt>Engineering</dt><dd>MATLAB, Simulink, OpenSCAD, NumPy, Matplotlib</dd></div>
-<div><dt>Web and tooling</dt><dd>TYPO3, Git, GitHub Actions, Linux over SSH, pytest, Unity, Claude Code</dd></div>
+<div><dt>Languages</dt><dd>Python, C++, Rust, JavaScript, C#, Java, PHP, HTML/CSS</dd></div>
+<div><dt>Embedded</dt><dd>Raspberry Pi Pico 2 (RP2350), Arduino, Raspberry Pi, CircuitPython, TinyUSB, USB HID, I2C, CAN bus</dd></div>
+<div><dt>Web and servers</dt><dd>TYPO3, Composer, Cloudflare Workers and Pages, Linux, SSH, networking (TCP/IP, DNS, HTTP)</dd></div>
+<div><dt>Tools</dt><dd>Git, GitHub Actions, pytest, NUnit, NumPy, MATLAB, Simulink, OpenSCAD, Claude Code, Workday, Excel</dd></div>
+<div><dt>Spoken</dt><dd>English (native), German (B2 reading, A2 speaking)</dd></div>
 </dl>
 </section>'''
 
